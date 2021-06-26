@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HostalManagementDB01Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StdID" Type="int" Nullable="false" />
+    <Property Name="CheckIn" Type="datetime" />
+    <Property Name="CheckOut" Type="datetime" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="Date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Bill">
+    <Key>
+      <PropertyRef Name="Billid" />
+    </Key>
+    <Property Name="Billid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HouseRent" Type="int" />
+    <Property Name="Internet" Type="int" />
+    <Property Name="Laundry" Type="int" />
+    <Property Name="FoodBill" Type="int" />
+    <Property Name="MonthId" Type="int" />
+    <Property Name="RegistrationId" Type="int" />
+  </EntityType>
+  <EntityType Name="BillAudit">
+    <Key>
+      <PropertyRef Name="BillAuditId" />
+    </Key>
+    <Property Name="BillAuditId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Billid" Type="int" />
+    <Property Name="MessingId" Type="int" />
+  </EntityType>
+  <EntityType Name="Catagory">
+    <Key>
+      <PropertyRef Name="CatagoryId" />
+    </Key>
+    <Property Name="CatagoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FoodList">
+    <Key>
+      <PropertyRef Name="FoodListId" />
+    </Key>
+    <Property Name="FoodListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Price" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="WeekdayId" Type="int" />
+    <Property Name="MealTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="MealType">
+    <Key>
+      <PropertyRef Name="MealTypeId" />
+    </Key>
+    <Property Name="MealTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Messing">
+    <Key>
+      <PropertyRef Name="MessingId" />
+    </Key>
+    <Property Name="MessingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WeekdayId" Type="int" />
+    <Property Name="MealTypeId" Type="int" />
+    <Property Name="FoodListId" Type="int" />
+    <Property Name="Price" Type="int" />
+    <Property Name="OrderDate" Type="varchar(max)" />
+    <Property Name="MonthId" Type="int" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="RegistrationId" Type="int" />
+    <Property Name="Hostory" Type="bit" />
+    <Property Name="BillId" Type="int" />
+  </EntityType>
+  <EntityType Name="Month">
+    <Key>
+      <PropertyRef Name="MonthId" />
+    </Key>
+    <Property Name="MonthId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="RegistrationId" />
+    </Key>
+    <Property Name="RegistrationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="FatherName" Type="varchar" MaxLength="50" />
+    <Property Name="FatherRank" Type="varchar" MaxLength="50" />
+    <Property Name="CNIC" Type="varchar" MaxLength="50" />
+    <Property Name="ContactNo" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="FamilyNo" Type="varchar" MaxLength="50" />
+    <Property Name="BloodGroup" Type="varchar" MaxLength="50" />
+    <Property Name="HomeAddress" Type="varchar(max)" />
+    <Property Name="Institute" Type="varchar(max)" />
+    <Property Name="Degree" Type="varchar" MaxLength="50" />
+    <Property Name="DegreeSession" Type="varchar" MaxLength="50" />
+    <Property Name="Convience" Type="varchar" MaxLength="50" />
+    <Property Name="VehicleNo" Type="varchar" MaxLength="50" />
+    <Property Name="LicenseNo" Type="varchar" MaxLength="50" />
+    <Property Name="Catagory" Type="int" />
+    <Property Name="UserRoleId" Type="int" />
+    <Property Name="Photo" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="tbl_ExtraMealMenu">
+    <Key>
+      <PropertyRef Name="ExtraMealMenuId" />
+    </Key>
+    <Property Name="ExtraMealMenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExtraName" Type="varchar" MaxLength="50" />
+    <Property Name="ExtraPrice" Type="float" />
+  </EntityType>
+  <EntityType Name="tbl_WeeklyMealMenu">
+    <Key>
+      <PropertyRef Name="WeeklyMealMenuId" />
+    </Key>
+    <Property Name="WeeklyMealMenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Lunch" Type="varchar" MaxLength="50" />
+    <Property Name="LunchPrice" Type="float" />
+    <Property Name="Dinner" Type="varchar" MaxLength="50" />
+    <Property Name="DinnerPrice" Type="float" />
+    <Property Name="WeekdayId" Type="int" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserRoleId" />
+    </Key>
+    <Property Name="UserRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Weekday">
+    <Key>
+      <PropertyRef Name="WeekdayId" />
+    </Key>
+    <Property Name="WeekdayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__tbl_Weekl__Weekd__7F2BE32F">
+    <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
+    <End Role="tbl_WeeklyMealMenu" Type="Self.tbl_WeeklyMealMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Weekday">
+        <PropertyRef Name="WeekdayId" />
+      </Principal>
+      <Dependent Role="tbl_WeeklyMealMenu">
+        <PropertyRef Name="WeekdayId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Attendance_Registration">
+    <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Registration">
+        <PropertyRef Name="RegistrationId" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="StdID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_Month">
+    <End Role="Month" Type="Self.Month" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Month">
+        <PropertyRef Name="MonthId" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="MonthId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_Registration">
+    <End Role="Registration" Type="Self.Registration" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Registration">
+        <PropertyRef Name="RegistrationId" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="RegistrationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodList_MealType">
+    <End Role="MealType" Type="Self.MealType" Multiplicity="0..1" />
+    <End Role="FoodList" Type="Self.FoodList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MealType">
+        <PropertyRef Name="MealTypeId" />
+      </Principal>
+      <Dependent Role="FoodList">
+        <PropertyRef Name="MealTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodList_Weekday">
+    <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
+    <End Role="FoodList" Type="Self.FoodList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Weekday">
+        <PropertyRef Name="WeekdayId" />
+      </Principal>
+      <Dependent Role="FoodList">
+        <PropertyRef Name="WeekdayId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messing_FoodList">
+    <End Role="FoodList" Type="Self.FoodList" Multiplicity="0..1" />
+    <End Role="Messing" Type="Self.Messing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodList">
+        <PropertyRef Name="FoodListId" />
+      </Principal>
+      <Dependent Role="Messing">
+        <PropertyRef Name="FoodListId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messing_MealType">
+    <End Role="MealType" Type="Self.MealType" Multiplicity="0..1" />
+    <End Role="Messing" Type="Self.Messing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MealType">
+        <PropertyRef Name="MealTypeId" />
+      </Principal>
+      <Dependent Role="Messing">
+        <PropertyRef Name="MealTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messing_Registration">
+    <End Role="Registration" Type="Self.Registration" Multiplicity="0..1" />
+    <End Role="Messing" Type="Self.Messing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Registration">
+        <PropertyRef Name="RegistrationId" />
+      </Principal>
+      <Dependent Role="Messing">
+        <PropertyRef Name="RegistrationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Messing_Weekday">
+    <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
+    <End Role="Messing" Type="Self.Messing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Weekday">
+        <PropertyRef Name="WeekdayId" />
+      </Principal>
+      <Dependent Role="Messing">
+        <PropertyRef Name="WeekdayId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registration_Catagory">
+    <End Role="Catagory" Type="Self.Catagory" Multiplicity="0..1" />
+    <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catagory">
+        <PropertyRef Name="CatagoryId" />
+      </Principal>
+      <Dependent Role="Registration">
+        <PropertyRef Name="Catagory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registration_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+    <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="UserRoleId" />
+      </Principal>
+      <Dependent Role="Registration">
+        <PropertyRef Name="UserRoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="DropBillRecord" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="stdId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getExtraMessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="getMenuToday" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="toady" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="getMonthyReportOrderByStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rid" Type="int" Mode="In" />
+    <Parameter Name="mid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getMonthyReportOrderByStudent01" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rid" Type="int" Mode="In" />
+    <Parameter Name="mid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getMonthyReportOrderByStudent02" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="bid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getMonthyReportOrderByStudentSingle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rid" Type="int" Mode="In" />
+    <Parameter Name="mid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getMonthyTotal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rid" Type="int" Mode="In" />
+    <Parameter Name="mid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getReadytoCook" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getTheMonthyReportOrderbyStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rid" Type="int" Mode="In" />
+    <Parameter Name="mid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getTotal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getTotal01" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getTotal02" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getTotal03" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="getWeeklyMealMenu01" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="HostalManagementDB01Model1StoreContainer">
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BillAudit" EntityType="Self.BillAudit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Catagory" EntityType="Self.Catagory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodList" EntityType="Self.FoodList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MealType" EntityType="Self.MealType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Messing" EntityType="Self.Messing" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Month" EntityType="Self.Month" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_ExtraMealMenu" EntityType="Self.tbl_ExtraMealMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_WeeklyMealMenu" EntityType="Self.tbl_WeeklyMealMenu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Weekday" EntityType="Self.Weekday" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__tbl_Weekl__Weekd__7F2BE32F" Association="Self.FK__tbl_Weekl__Weekd__7F2BE32F">
+      <End Role="Weekday" EntitySet="Weekday" />
+      <End Role="tbl_WeeklyMealMenu" EntitySet="tbl_WeeklyMealMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Attendance_Registration" Association="Self.FK_Attendance_Registration">
+      <End Role="Registration" EntitySet="Registration" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_Month" Association="Self.FK_Bill_Month">
+      <End Role="Month" EntitySet="Month" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_Registration" Association="Self.FK_Bill_Registration">
+      <End Role="Registration" EntitySet="Registration" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodList_MealType" Association="Self.FK_FoodList_MealType">
+      <End Role="MealType" EntitySet="MealType" />
+      <End Role="FoodList" EntitySet="FoodList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodList_Weekday" Association="Self.FK_FoodList_Weekday">
+      <End Role="Weekday" EntitySet="Weekday" />
+      <End Role="FoodList" EntitySet="FoodList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messing_FoodList" Association="Self.FK_Messing_FoodList">
+      <End Role="FoodList" EntitySet="FoodList" />
+      <End Role="Messing" EntitySet="Messing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messing_MealType" Association="Self.FK_Messing_MealType">
+      <End Role="MealType" EntitySet="MealType" />
+      <End Role="Messing" EntitySet="Messing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messing_Registration" Association="Self.FK_Messing_Registration">
+      <End Role="Registration" EntitySet="Registration" />
+      <End Role="Messing" EntitySet="Messing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Messing_Weekday" Association="Self.FK_Messing_Weekday">
+      <End Role="Weekday" EntitySet="Weekday" />
+      <End Role="Messing" EntitySet="Messing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registration_Catagory" Association="Self.FK_Registration_Catagory">
+      <End Role="Catagory" EntitySet="Catagory" />
+      <End Role="Registration" EntitySet="Registration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registration_UserRole" Association="Self.FK_Registration_UserRole">
+      <End Role="UserRole" EntitySet="UserRole" />
+      <End Role="Registration" EntitySet="Registration" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HostalManagement.Models.Bill>
+
+@{
+    ViewBag.Title = "list";
+}
+
+<h2>list</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            OrderDate
+        </th>
+        <th>
+            MealType
+        </th>
+        <th>
+            Day
+        </th>
+
+    </tr>
+
+    @foreach (var i in ViewBag.getMonthlyReport)
+    {
+        <tr>
+            <td>
+                @i.Name
+            </td>
+            <td>
+                @i.Price
+            </td>
+            <td>
+                @i.OrderDate
+            </td>
+            <td>
+                @i.MealType
+            </td>
+            <td>
+                @i.Day
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@foreach (var i in ViewBag.list)
+{
+    <h1>@i.HouseRent </h1>
+    <h1>@i.Internet </h1>
+    <h1>@i.Laundry </h1>
+    <h1>@i.FoodBill </h1>
+}
+<h1>@ViewBag.nettotal</h1>
+<h1>@ViewBag.date</h1>

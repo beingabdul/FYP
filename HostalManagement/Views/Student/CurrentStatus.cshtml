@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "CurrentStatus";
+}
+
+<h2>Daily Messing</h2>
+
+<h4>for the month of: @ViewBag.mname </h4>
+
+<table class="table table-bordered table-info">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Meal Type
+        </th>
+        <th>
+            Item Name
+        </th>
+        <th>
+            Price
+        </th>
+
+    </tr>
+
+    @foreach (var i in ViewBag.list)
+    {
+        <tr>
+            <td>
+                @i.OrderDate
+            </td>
+            <td>
+                @i.MealType
+            </td>
+            <td>
+                @i.FoodName
+            </td>
+            <td>
+                @i.Price
+            </td>
+
+
+
+        </tr>
+    }
+
+</table>
+

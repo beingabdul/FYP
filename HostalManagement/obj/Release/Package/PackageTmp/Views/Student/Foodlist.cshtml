@@ -1,0 +1,43 @@
+﻿@model IEnumerable<HostalManagement.Models.FoodList>
+
+@{
+    ViewBag.Title = "Foodlist";
+}
+
+<h2>Mess Menu</h2>
+
+<table class="table table-bordered table-info">
+    <tr>
+        <th>
+            Day
+        </th>
+        <th>
+            Meal Type
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weekday.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MealType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+        </tr>
+    }
+
+</table>

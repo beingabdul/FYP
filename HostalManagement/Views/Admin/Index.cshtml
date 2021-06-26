@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-12 col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h4>Admin Dashboard</h4>
+        </div>
+        <div class="card-body">
+            <p>admin@gmail.com</p>
+            @*<div class="buttons">
+                <a href="/Admin/Index" class="btn btn-primary">Index</a>
+                <a href="/Admin/GenerateBill" class="btn btn-secondary">Generate Bill</a>
+                <a href="/Admin/GenerateBillReport" class="btn btn-info">Generate Bill Report</a>
+                <a href="/Admin/BillReport" class="btn btn-warning">Donwload</a>
+                <a href="/Admin/StudentCreate" class="btn btn-danger">Student Create</a>
+                <a href="/Admin/ClerkCreate" class="btn btn-success">Clerk Create</a>
+                <a href="/Admin/Index" class="btn btn-light">Light</a>
+                <a href="/Admin/Index" class="btn btn-dark">Dark</a>
+                <a href="/Admin/Index" class="btn">Link</a>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+@if (TempData["msg"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@TempData["msg"]");
+            };
+    </script>
+}  

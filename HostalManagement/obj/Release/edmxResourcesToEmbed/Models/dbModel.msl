@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HostalManagementDB01ModelStoreContainer" CdmEntityContainer="HostalManagementDB01Entities">
+    <EntitySetMapping Name="Attendances">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Attendance">
+        <MappingFragment StoreEntitySet="Attendance">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="StdID" ColumnName="StdID" />
+          <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+          <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Bill">
+        <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="Billid" ColumnName="Billid" />
+          <ScalarProperty Name="HouseRent" ColumnName="HouseRent" />
+          <ScalarProperty Name="Internet" ColumnName="Internet" />
+          <ScalarProperty Name="Laundry" ColumnName="Laundry" />
+          <ScalarProperty Name="FoodBill" ColumnName="FoodBill" />
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BillAudits">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.BillAudit">
+        <MappingFragment StoreEntitySet="BillAudit">
+          <ScalarProperty Name="BillAuditId" ColumnName="BillAuditId" />
+          <ScalarProperty Name="Billid" ColumnName="Billid" />
+          <ScalarProperty Name="MessingId" ColumnName="MessingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Catagories">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Catagory">
+        <MappingFragment StoreEntitySet="Catagory">
+          <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FoodLists">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.FoodList">
+        <MappingFragment StoreEntitySet="FoodList">
+          <ScalarProperty Name="FoodListId" ColumnName="FoodListId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
+          <ScalarProperty Name="MealTypeId" ColumnName="MealTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MealTypes">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.MealType">
+        <MappingFragment StoreEntitySet="MealType">
+          <ScalarProperty Name="MealTypeId" ColumnName="MealTypeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messings">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Messing">
+        <MappingFragment StoreEntitySet="Messing">
+          <ScalarProperty Name="MessingId" ColumnName="MessingId" />
+          <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
+          <ScalarProperty Name="MealTypeId" ColumnName="MealTypeId" />
+          <ScalarProperty Name="FoodListId" ColumnName="FoodListId" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="Hostory" ColumnName="Hostory" />
+          <ScalarProperty Name="BillId" ColumnName="BillId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Months">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Month">
+        <MappingFragment StoreEntitySet="Month">
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Registrations">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Registration">
+        <MappingFragment StoreEntitySet="Registration">
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+          <ScalarProperty Name="FatherRank" ColumnName="FatherRank" />
+          <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FamilyNo" ColumnName="FamilyNo" />
+          <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+          <ScalarProperty Name="HomeAddress" ColumnName="HomeAddress" />
+          <ScalarProperty Name="Institute" ColumnName="Institute" />
+          <ScalarProperty Name="Degree" ColumnName="Degree" />
+          <ScalarProperty Name="DegreeSession" ColumnName="DegreeSession" />
+          <ScalarProperty Name="Convience" ColumnName="Convience" />
+          <ScalarProperty Name="VehicleNo" ColumnName="VehicleNo" />
+          <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+          <ScalarProperty Name="Catagory" ColumnName="Catagory" />
+          <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ExtraMealMenu">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.tbl_ExtraMealMenu">
+        <MappingFragment StoreEntitySet="tbl_ExtraMealMenu">
+          <ScalarProperty Name="ExtraMealMenuId" ColumnName="ExtraMealMenuId" />
+          <ScalarProperty Name="ExtraName" ColumnName="ExtraName" />
+          <ScalarProperty Name="ExtraPrice" ColumnName="ExtraPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_WeeklyMealMenu">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.tbl_WeeklyMealMenu">
+        <MappingFragment StoreEntitySet="tbl_WeeklyMealMenu">
+          <ScalarProperty Name="WeeklyMealMenuId" ColumnName="WeeklyMealMenuId" />
+          <ScalarProperty Name="Lunch" ColumnName="Lunch" />
+          <ScalarProperty Name="LunchPrice" ColumnName="LunchPrice" />
+          <ScalarProperty Name="Dinner" ColumnName="Dinner" />
+          <ScalarProperty Name="DinnerPrice" ColumnName="DinnerPrice" />
+          <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRoles">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.UserRole">
+        <MappingFragment StoreEntitySet="UserRole">
+          <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Weekdays">
+      <EntityTypeMapping TypeName="HostalManagementDB01Model.Weekday">
+        <MappingFragment StoreEntitySet="Weekday">
+          <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DropBillRecord" FunctionName="HostalManagementDB01Model.Store.DropBillRecord" />
+    <FunctionImportMapping FunctionImportName="getExtraMessing" FunctionName="HostalManagementDB01Model.Store.getExtraMessing">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getExtraMessing_Result">
+          <ScalarProperty Name="ExtraName" ColumnName="ExtraName" />
+          <ScalarProperty Name="ExtraPrice" ColumnName="ExtraPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getMenuToday" FunctionName="HostalManagementDB01Model.Store.getMenuToday">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getMenuToday_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Lunch" ColumnName="Lunch" />
+          <ScalarProperty Name="LunchPrice" ColumnName="LunchPrice" />
+          <ScalarProperty Name="Dinner" ColumnName="Dinner" />
+          <ScalarProperty Name="DinnerPrice" ColumnName="DinnerPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getMonthyReportOrderByStudent" FunctionName="HostalManagementDB01Model.Store.getMonthyReportOrderByStudent">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getMonthyReportOrderByStudent_Result">
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="MealType" ColumnName="MealType" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getMonthyReportOrderByStudent01" FunctionName="HostalManagementDB01Model.Store.getMonthyReportOrderByStudent01">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getMonthyReportOrderByStudent01_Result">
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="MealType" ColumnName="MealType" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getMonthyReportOrderByStudent02" FunctionName="HostalManagementDB01Model.Store.getMonthyReportOrderByStudent02">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getMonthyReportOrderByStudent02_Result">
+          <ScalarProperty Name="Mont" ColumnName="Mont" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getMonthyReportOrderByStudentSingle" FunctionName="HostalManagementDB01Model.Store.getMonthyReportOrderByStudentSingle">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getMonthyReportOrderByStudentSingle_Result">
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="MealType" ColumnName="MealType" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getMonthyTotal" FunctionName="HostalManagementDB01Model.Store.getMonthyTotal" />
+    <FunctionImportMapping FunctionImportName="getReadytoCook" FunctionName="HostalManagementDB01Model.Store.getReadytoCook" />
+    <FunctionImportMapping FunctionImportName="getTheMonthyReportOrderbyStudent" FunctionName="HostalManagementDB01Model.Store.getTheMonthyReportOrderbyStudent">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getTheMonthyReportOrderbyStudent_Result">
+          <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+          <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="MealType" ColumnName="MealType" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getTotal" FunctionName="HostalManagementDB01Model.Store.getTotal" />
+    <FunctionImportMapping FunctionImportName="getTotal01" FunctionName="HostalManagementDB01Model.Store.getTotal01" />
+    <FunctionImportMapping FunctionImportName="getTotal02" FunctionName="HostalManagementDB01Model.Store.getTotal02" />
+    <FunctionImportMapping FunctionImportName="getTotal03" FunctionName="HostalManagementDB01Model.Store.getTotal03" />
+    <FunctionImportMapping FunctionImportName="getWeeklyMealMenu01" FunctionName="HostalManagementDB01Model.Store.getWeeklyMealMenu01">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HostalManagementDB01Model.getWeeklyMealMenu01_Result">
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="Lunch" ColumnName="Lunch" />
+          <ScalarProperty Name="LunchPrice" ColumnName="LunchPrice" />
+          <ScalarProperty Name="Dinner" ColumnName="Dinner" />
+          <ScalarProperty Name="DinnerPrice" ColumnName="DinnerPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

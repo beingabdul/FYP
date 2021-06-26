@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HostalManagement.Models.Bill>
+
+@{
+    ViewBag.Title = "GenerateBillReport";
+}
+
+<h2> Bill Report</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HouseRent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Internet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Laundry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodBill)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HouseRent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Internet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Laundry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FoodBill)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Month.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Registration.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Report", "BillReport", new { id=item.Billid }) |            
+        </td>
+    </tr>
+}
+
+</table>

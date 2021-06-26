@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HostalManagement.Models.Registration>
+
+
+
+<h2>Storemans Record</h2>
+
+<table class="table table-bordered tab-content">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNIC)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td class="alert-danger">
+                | @Html.ActionLink("Update", "StoremanEdit", new { id = item.RegistrationId }) |
+
+                @Html.ActionLink("Details", "StoremanDetail", new { id = item.RegistrationId }) |
+
+                @Html.ActionLink("Delete", "StoremanDelete", new { id = item.RegistrationId }) |
+            </td>
+
+        </tr>
+    }
+
+</table>
+    <div class="form-actions no-color">    
+        <input type="button" value="Register New User" class="btn btn-primary" id="btn-cre" />
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+    <script>
+        $(document).on('click', '#btn-cre', function () {
+                        location.href = "/Admin/StoremanCreate";});
+    </script>

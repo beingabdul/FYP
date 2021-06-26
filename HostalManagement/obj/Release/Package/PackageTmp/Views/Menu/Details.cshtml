@@ -1,0 +1,58 @@
+﻿@model HostalManagement.Models.FoodList
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FoodList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MealType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MealType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Weekday.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weekday.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FoodListId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

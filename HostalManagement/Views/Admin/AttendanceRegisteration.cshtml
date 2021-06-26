@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "AttendanceRegisteration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <h2>Register User <small>for daily check in/out</small></h2>
+    </div>
+</div>
+<div class="container">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label>Select Student</label>
+                    <select id="student" class="form-control">
+                        @foreach (var item in ViewBag.stds)
+                        {
+                            <option value="@item.RegistrationId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-12">
+                <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                <canvas id="canvas" class="d-none"></canvas>
+                <img id="img" style="display:none" width="640" height="480"/>
+                <audio id="snapSound" src="audio/snap.wav" preload="auto"></audio>
+                <a onclick="takephoto()" id="take-photo" title="Take Photo"><img style="position: relative; top: -50px; left: -32%;" src="~/Assets/img/unnamed.png" width="40"/>
+                </a>
+            </div>
+            <div class="mt-5">
+                <a id="btn_submit" onclick="update_picture()" style="color:white; display:none;" class="btn btn-primary">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    
+    const webcamElement = document.getElementById('webcam');
+    const canvasElement = document.getElementById('canvas');
+    const snapSoundElement = document.getElementById('snapSound');
+    const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+
+    webcam.start()
+        .then(result => {
+            console.log("webcam started");
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+    function takephoto() {
+        $('#take-photo').css('display', 'none');
+        let picture = webcam.snap();
+        $('#img').attr('src', picture);
+        $('#img').removeAttr('style');
+        $('#webcam').css('display','none');
+        //document.querySelector('#download-photo').href = picture;
+        webcam.stop();
+        $('#btn_submit').css('display', 'block');
+
+    }
+    function update_picture() {
+        var user_id = $('#student').val();
+        var img = $('#img').attr('src');
+        var registr = { RegistrationId: user_id, Photo: img }
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/Admin/AttendanceRegisteration",
+            data: JSON.stringify({
+                re: registr
+            }),
+            processData: false,
+            contentType: "application/json;charset=utf-8",
+            success: function (Rdata) {
+                if (Rdata != 'error') {
+                    alert("Profile Updated!").then(
+                        () => {
+                        window.location.reload();
+                    });
+                }
+                else
+                    alert("Database Error");
+            },
+        });
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<HostalManagement.Models.Messing>
+
+@{
+    ViewBag.Title = "CheckOrder";
+}
+
+<h2>CheckOrder</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FoodList.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MealType.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Registration.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weekday.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FoodList.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MealType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Registration.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weekday.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a href="javascript:void(0);" data-id="@item.MessingId" class="ready">
+                    Ready for Cook
+                </a>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $('.ready').click(function (e) {
+            e.preventDefault();
+            var $ctrl = $(this);
+            if (confirm('Do you really want to deactivate this value?')) {
+                $.ajax({
+                    url: '@Url.Action("ReadytoCook")',
+                    type: 'POST',
+                    data: { id: $(this).data('id') }
+                }).done(function (data) {
+                    if (data.Result == "OK") {
+                        $ctrl.closest('tr').remove();
+                        alert("Order Ready foor Cook!")
+                    }
+                    else if (data.Result.Message) {
+                        alert(data.Result.Message);
+                    }
+                }).fail(function () {
+                    alert("There is something wrong. Please try again.");
+                })
+
+            }
+        });
+</script>

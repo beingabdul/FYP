@@ -1,0 +1,161 @@
+﻿@model HostalManagement.Models.Registration
+
+@{
+    ViewBag.Title = "StudentDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Student Detail</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FatherName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FatherName)
+        </dd>
+
+        @*<dt>
+                @Html.DisplayNameFor(model => model.FatherRank)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FatherRank)
+            </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CNIC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CNIC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FamilyNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FamilyNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BloodGroup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BloodGroup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomeAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Institute)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Institute)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Degree)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DegreeSession)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DegreeSession)
+        </dd>
+
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Convience)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Convience)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.VehicleNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.VehicleNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LicenseNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LicenseNo)
+            </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Catagory1.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Catagory1.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserRole.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserRole.Name)
+        </dd>
+
+    </dl>
+</div>
+<button class="btn btn-primary">@Html.ActionLink("Edit", "StudentEdit", new { id = Model.RegistrationId })</button>
+    |  |
+<button class="btn btn-danger btn-default">@Html.ActionLink("Delete", "StudentDelete", new { id = Model.RegistrationId })</button>

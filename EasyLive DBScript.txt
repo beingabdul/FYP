@@ -1,0 +1,659 @@
+
+Create database HostalManagementDB
+
+
+
+create proc [dbo].[getMonthyReportOrderByStudent]
+@rid int,
+@mid int
+as
+begin
+Select r.RegistrationId,  m.MonthId, r.Name , m.Price , m.Status, m.OrderDate, mt.Name as 'MealType' , wd.Name as 'Day' 
+from Registration r
+inner join Messing m
+on r.RegistrationId = m.RegistrationId
+inner join MealType mt
+on m.MealTypeId = mt.MealTypeId
+inner join Weekday wd
+on m.WeekdayId = wd.WeekdayId
+where r.RegistrationId = @rid AND m.MonthId = @mid
+end
+GO
+/****** Object:  StoredProcedure [dbo].[getMonthyReportOrderByStudent01]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create proc [dbo].[getMonthyReportOrderByStudent01]
+@rid int,
+@mid int
+as
+begin
+Select r.RegistrationId,  m.MonthId, r.Name , m.Price , m.Status, m.OrderDate, mt.Name as 'MealType' , wd.Name as 'Day' 
+from Registration r
+inner join Messing m
+on r.RegistrationId = m.RegistrationId
+inner join MealType mt
+on m.MealTypeId = mt.MealTypeId
+inner join Weekday wd
+on m.WeekdayId = wd.WeekdayId
+where r.RegistrationId = @rid AND m.MonthId = @mid AND m.Hostory = 'True'
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[getMonthyReportOrderByStudent02]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+create proc [dbo].[getMonthyReportOrderByStudent02]
+@bid int
+as begin
+select mon.Name as 'Mont',r.Name as 'User', wk.Name as 'Day', fd.Name as 'Product' , fd.Price,m.OrderDate, mt.Name as 'Type' from BillAudit ba
+inner join Messing m on ba.MessingId = m.MessingId
+inner join Month mon on m.MonthId = mon.MonthId
+inner join MealType mt on m.MealTypeId = mt.MealTypeId
+inner join Weekday wk on m.WeekdayId = wk.WeekdayId
+inner join FoodList fd on m.FoodListId = fd.FoodListId
+inner join Registration r on m.RegistrationId = r.RegistrationId
+where ba.Billid = @bid
+end
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[getMonthyReportOrderByStudentSingle]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create proc [dbo].[getMonthyReportOrderByStudentSingle]
+@rid int,
+@mid int
+as
+begin
+Select r.RegistrationId,  m.MonthId, mon.Name as 'MonthName',  r.Name , df.Name as 'FoodName', m.Price , m.Status, m.OrderDate, mt.Name as 'MealType' , wd.Name as 'Day' 
+from Registration r
+inner join Messing m
+on r.RegistrationId = m.RegistrationId
+inner join MealType mt
+on m.MealTypeId = mt.MealTypeId
+inner join Weekday wd
+on m.WeekdayId = wd.WeekdayId
+inner join Month mon 
+on m.MonthId = mon.MonthId
+inner join FoodList df 
+on m.FoodListId = df.FoodListId
+where r.RegistrationId = @rid AND m.MonthId = @mid
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[getMonthyTotal]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[getMonthyTotal]
+@rid int,
+@mid int
+as
+begin
+select sum(Price) as 'Total' from Messing
+where RegistrationId = @rid AND MonthId = @mid
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[getReadytoCook]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[getReadytoCook]
+@id int
+as begin
+update Messing
+set Status = 'True'
+where MessingId = @id
+end
+GO
+/****** Object:  StoredProcedure [dbo].[getTotal]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create proc [dbo].[getTotal]
+@rid int
+as begin
+select HouseRent + Internet + Laundry + FoodBill as Total from Bill
+where RegistrationId = @rid
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[getTotal01]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create proc [dbo].[getTotal01]
+@BID int
+as begin
+select HouseRent + Internet + Laundry + FoodBill from Bill
+where Billid = @BID
+end
+GO
+/****** Object:  StoredProcedure [dbo].[getTotal02]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[getTotal02]
+@BID int
+as begin
+select HouseRent + Internet + Laundry + FoodBill as Total from  Bill
+where Billid = @BID
+end
+
+GO
+/****** Object:  StoredProcedure [dbo].[getTotal03]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[getTotal03]
+@BID int
+as begin
+select SUM(HouseRent + Internet + Laundry + FoodBill) from bill 
+where Billid = @BID
+end
+
+GO
+/****** Object:  Table [dbo].[Bill]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bill](
+	[Billid] [int] IDENTITY(1,1) NOT NULL,
+	[HouseRent] [int] NULL,
+	[Internet] [int] NULL,
+	[Laundry] [int] NULL,
+	[FoodBill] [int] NULL,
+	[MonthId] [int] NULL,
+	[RegistrationId] [int] NULL,
+ CONSTRAINT [PK_Bill] PRIMARY KEY CLUSTERED 
+(
+	[Billid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[BillAudit]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[BillAudit](
+	[BillAuditId] [int] IDENTITY(1,1) NOT NULL,
+	[Billid] [int] NULL,
+	[MessingId] [int] NULL,
+ CONSTRAINT [PK_BillAudit] PRIMARY KEY CLUSTERED 
+(
+	[BillAuditId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Catagory]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Catagory](
+	[CatagoryId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+ CONSTRAINT [PK_Catagory] PRIMARY KEY CLUSTERED 
+(
+	[CatagoryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[FoodList]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[FoodList](
+	[FoodListId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+	[Price] [varchar](50) NULL,
+	[Status] [bit] NULL,
+	[WeekdayId] [int] NULL,
+	[MealTypeId] [int] NULL,
+ CONSTRAINT [PK_FoodList] PRIMARY KEY CLUSTERED 
+(
+	[FoodListId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[MealType]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[MealType](
+	[MealTypeId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+ CONSTRAINT [PK_MealType] PRIMARY KEY CLUSTERED 
+(
+	[MealTypeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Messing]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Messing](
+	[MessingId] [int] IDENTITY(1,1) NOT NULL,
+	[WeekdayId] [int] NULL,
+	[MealTypeId] [int] NULL,
+	[FoodListId] [int] NULL,
+	[Price] [int] NULL,
+	[OrderDate] [varchar](max) NULL,
+	[MonthId] [int] NULL,
+	[Status] [bit] NULL,
+	[RegistrationId] [int] NULL,
+	[Hostory] [bit] NULL,
+	[BillId] [int] NULL,
+ CONSTRAINT [PK_Messing] PRIMARY KEY CLUSTERED 
+(
+	[MessingId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Month]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Month](
+	[MonthId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+ CONSTRAINT [PK_Month] PRIMARY KEY CLUSTERED 
+(
+	[MonthId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Registration]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Registration](
+	[RegistrationId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+	[FatherName] [varchar](50) NULL,
+	[FatherRank] [varchar](50) NULL,
+	[CNIC] [varchar](50) NULL,
+	[ContactNo] [varchar](50) NULL,
+	[Email] [varchar](50) NULL,
+	[Password] [varchar](50) NULL,
+	[FamilyNo] [varchar](50) NULL,
+	[BloodGroup] [varchar](50) NULL,
+	[HomeAddress] [varchar](max) NULL,
+	[Institute] [varchar](max) NULL,
+	[Degree] [varchar](50) NULL,
+	[DegreeSession] [varchar](50) NULL,
+	[Convience] [varchar](50) NULL,
+	[VehicleNo] [varchar](50) NULL,
+	[LicenseNo] [varchar](50) NULL,
+	[Catagory] [int] NULL,
+	[UserRoleId] [int] NULL,
+ CONSTRAINT [PK_Registration] PRIMARY KEY CLUSTERED 
+(
+	[RegistrationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[UserRole]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[UserRole](
+	[UserRoleId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+ CONSTRAINT [PK_UserRole] PRIMARY KEY CLUSTERED 
+(
+	[UserRoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Weekday]    Script Date: 7/15/2020 7:45:02 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Weekday](
+	[WeekdayId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+ CONSTRAINT [PK_Weekday] PRIMARY KEY CLUSTERED 
+(
+	[WeekdayId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+SET IDENTITY_INSERT [dbo].[Bill] ON 
+
+GO
+INSERT [dbo].[Bill] ([Billid], [HouseRent], [Internet], [Laundry], [FoodBill], [MonthId], [RegistrationId]) VALUES (1, 500, 200, 1000, 110, 7, 2)
+GO
+INSERT [dbo].[Bill] ([Billid], [HouseRent], [Internet], [Laundry], [FoodBill], [MonthId], [RegistrationId]) VALUES (2, 3000, 200, 1000, 170, 7, 3)
+GO
+INSERT [dbo].[Bill] ([Billid], [HouseRent], [Internet], [Laundry], [FoodBill], [MonthId], [RegistrationId]) VALUES (3, 3000, 200, 1000, 160, 7, 6)
+GO
+INSERT [dbo].[Bill] ([Billid], [HouseRent], [Internet], [Laundry], [FoodBill], [MonthId], [RegistrationId]) VALUES (4, 500, 200, 1000, 50, 7, 2)
+GO
+SET IDENTITY_INSERT [dbo].[Bill] OFF
+GO
+SET IDENTITY_INSERT [dbo].[BillAudit] ON 
+
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (1, 1, 1)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (2, 1, 8)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (3, 2, 2)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (4, 2, 6)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (5, 2, 7)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (6, 3, 3)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (7, 3, 4)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (8, 3, 5)
+GO
+INSERT [dbo].[BillAudit] ([BillAuditId], [Billid], [MessingId]) VALUES (9, 4, 9)
+GO
+SET IDENTITY_INSERT [dbo].[BillAudit] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Catagory] ON 
+
+GO
+INSERT [dbo].[Catagory] ([CatagoryId], [Name]) VALUES (1, N'Soldier')
+GO
+INSERT [dbo].[Catagory] ([CatagoryId], [Name]) VALUES (2, N'JCO')
+GO
+INSERT [dbo].[Catagory] ([CatagoryId], [Name]) VALUES (3, N'Officer')
+GO
+SET IDENTITY_INSERT [dbo].[Catagory] OFF
+GO
+SET IDENTITY_INSERT [dbo].[FoodList] ON 
+
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (1, N'AA', N'10', 1, 1, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (2, N'BB', N'20', 1, 1, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (3, N'CC', N'20', 1, 2, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (4, N'DD', N'10', 1, 2, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (5, N'EE', N'10', 1, 3, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (6, N'FF', N'30', 1, 3, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (7, N'GG', N'50', 1, 4, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (8, N'HH', N'60', 1, 4, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (9, N'JJ', N'40', 1, 5, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (10, N'KK', N'80', 1, 5, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (11, N'MM', N'70', 1, 6, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (12, N'NN', N'30', 1, 6, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (13, N'LL', N'50', 1, 7, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (14, N'OO', N'60', 1, 7, 2)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (15, N'pp', N'70', 1, 3, 1)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (16, N'1 Kg Chicken Karahi', N'1000', 1, 1, 3)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (17, N'Mutton Korma', N'1200', 1, 1, 3)
+GO
+INSERT [dbo].[FoodList] ([FoodListId], [Name], [Price], [Status], [WeekdayId], [MealTypeId]) VALUES (18, N'Large Pizza', N'800', 1, 1, 3)
+GO
+SET IDENTITY_INSERT [dbo].[FoodList] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MealType] ON 
+
+GO
+INSERT [dbo].[MealType] ([MealTypeId], [Name]) VALUES (1, N'Lunch')
+GO
+INSERT [dbo].[MealType] ([MealTypeId], [Name]) VALUES (2, N'Dinner')
+GO
+INSERT [dbo].[MealType] ([MealTypeId], [Name]) VALUES (3, N'Breakfast')
+GO
+SET IDENTITY_INSERT [dbo].[MealType] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Messing] ON 
+
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (1, 1, 1, 7, 50, N'9-7-2020', 7, 1, 2, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (2, 1, 2, 8, 60, N'9-7-2020', 7, 1, 3, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (3, 1, 1, 7, 50, N'9-7-2020', 7, 1, 6, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (4, 2, 1, 7, 50, N'9-7-2020', 7, 1, 6, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (5, 2, 2, 8, 60, N'9-7-2020', 7, 1, 6, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (6, 2, 1, 7, 50, N'9-7-2020', 7, 1, 3, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (7, 2, 2, 8, 60, N'9-7-2020', 7, 1, 3, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (8, 2, 2, 8, 60, N'9-7-2020', 7, 1, 2, 1, NULL)
+GO
+INSERT [dbo].[Messing] ([MessingId], [WeekdayId], [MealTypeId], [FoodListId], [Price], [OrderDate], [MonthId], [Status], [RegistrationId], [Hostory], [BillId]) VALUES (9, 4, 1, 7, 50, N'9-7-2020', 7, 1, 2, 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Messing] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Month] ON 
+
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (1, N'January')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (2, N'February')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (3, N'March')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (4, N'April')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (5, N'May')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (6, N'June')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (7, N'July')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (8, N'August')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (9, N'September')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (10, N'October')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (11, N'November')
+GO
+INSERT [dbo].[Month] ([MonthId], [Name]) VALUES (12, N'December')
+GO
+SET IDENTITY_INSERT [dbo].[Month] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Registration] ON 
+
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (1, N'admin', NULL, NULL, N'12345', NULL, N'admin@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (2, N'Ali Raza', N'Hassan', N'none', N'12346', NULL, N'aliraza@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 2)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (3, N'Usman Shahid', N'Shahid', N'none', N'12347', NULL, N'usman@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 2)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (4, N'Qamar', N'Qamar', NULL, NULL, NULL, N'Qamar@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (5, N'shakeel Ahmed', N'Hassan', N'JCO', N'12345-1234567-4', N'03226778877', N'shakeel@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 2)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (6, N'Sara Khan', N'raza khan', NULL, NULL, NULL, N'sara@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 2)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (10, N'amir', N'a', N'a', N'a', N'a', N'amir@gmail.com', N'123', N'a', N'a', N'a', N'a', N'a', N'a', N'a', N'a', N'a', 2, 2)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (11, N'amna', N'a', N'a', N'a', N'a', N'amna@gmail.com', N'123', N'a', N'a', N'a', N'a', N'a', N'a', N'a', N'a', N'a', 3, 2)
+GO
+INSERT [dbo].[Registration] ([RegistrationId], [Name], [FatherName], [FatherRank], [CNIC], [ContactNo], [Email], [Password], [FamilyNo], [BloodGroup], [HomeAddress], [Institute], [Degree], [DegreeSession], [Convience], [VehicleNo], [LicenseNo], [Catagory], [UserRoleId]) VALUES (12, N'Adnan', N'Hassan', NULL, N'12345', NULL, N'Adnan@gmail.com', N'123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4)
+GO
+SET IDENTITY_INSERT [dbo].[Registration] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserRole] ON 
+
+GO
+INSERT [dbo].[UserRole] ([UserRoleId], [Name]) VALUES (1, N'Admin')
+GO
+INSERT [dbo].[UserRole] ([UserRoleId], [Name]) VALUES (2, N'Student')
+GO
+INSERT [dbo].[UserRole] ([UserRoleId], [Name]) VALUES (3, N'Clerk')
+GO
+INSERT [dbo].[UserRole] ([UserRoleId], [Name]) VALUES (4, N'Storeman')
+GO
+SET IDENTITY_INSERT [dbo].[UserRole] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Weekday] ON 
+
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (1, N'Monday')
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (2, N'Tuesday')
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (3, N'Wednesday')
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (4, N'Thursday')
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (5, N'Friday')
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (6, N'Saturday')
+GO
+INSERT [dbo].[Weekday] ([WeekdayId], [Name]) VALUES (7, N'Sunday')
+GO
+SET IDENTITY_INSERT [dbo].[Weekday] OFF
+GO
+SET ANSI_PADDING ON
+
+GO
+/****** Object:  Index [UQ__Registra__A9D105348C93EA51]    Script Date: 7/15/2020 7:45:03 AM ******/
+ALTER TABLE [dbo].[Registration] ADD  CONSTRAINT [UQ__Registra__A9D105348C93EA51] UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Bill]  WITH CHECK ADD  CONSTRAINT [FK_Bill_Month] FOREIGN KEY([MonthId])
+REFERENCES [dbo].[Month] ([MonthId])
+GO
+ALTER TABLE [dbo].[Bill] CHECK CONSTRAINT [FK_Bill_Month]
+GO
+ALTER TABLE [dbo].[Bill]  WITH CHECK ADD  CONSTRAINT [FK_Bill_Registration] FOREIGN KEY([RegistrationId])
+REFERENCES [dbo].[Registration] ([RegistrationId])
+GO
+ALTER TABLE [dbo].[Bill] CHECK CONSTRAINT [FK_Bill_Registration]
+GO
+ALTER TABLE [dbo].[FoodList]  WITH CHECK ADD  CONSTRAINT [FK_FoodList_MealType] FOREIGN KEY([MealTypeId])
+REFERENCES [dbo].[MealType] ([MealTypeId])
+GO
+ALTER TABLE [dbo].[FoodList] CHECK CONSTRAINT [FK_FoodList_MealType]
+GO
+ALTER TABLE [dbo].[FoodList]  WITH CHECK ADD  CONSTRAINT [FK_FoodList_Weekday] FOREIGN KEY([WeekdayId])
+REFERENCES [dbo].[Weekday] ([WeekdayId])
+GO
+ALTER TABLE [dbo].[FoodList] CHECK CONSTRAINT [FK_FoodList_Weekday]
+GO
+ALTER TABLE [dbo].[Messing]  WITH CHECK ADD  CONSTRAINT [FK_Messing_FoodList] FOREIGN KEY([FoodListId])
+REFERENCES [dbo].[FoodList] ([FoodListId])
+GO
+ALTER TABLE [dbo].[Messing] CHECK CONSTRAINT [FK_Messing_FoodList]
+GO
+ALTER TABLE [dbo].[Messing]  WITH CHECK ADD  CONSTRAINT [FK_Messing_MealType] FOREIGN KEY([MealTypeId])
+REFERENCES [dbo].[MealType] ([MealTypeId])
+GO
+ALTER TABLE [dbo].[Messing] CHECK CONSTRAINT [FK_Messing_MealType]
+GO
+ALTER TABLE [dbo].[Messing]  WITH CHECK ADD  CONSTRAINT [FK_Messing_Registration] FOREIGN KEY([RegistrationId])
+REFERENCES [dbo].[Registration] ([RegistrationId])
+GO
+ALTER TABLE [dbo].[Messing] CHECK CONSTRAINT [FK_Messing_Registration]
+GO
+ALTER TABLE [dbo].[Messing]  WITH CHECK ADD  CONSTRAINT [FK_Messing_Weekday] FOREIGN KEY([WeekdayId])
+REFERENCES [dbo].[Weekday] ([WeekdayId])
+GO
+ALTER TABLE [dbo].[Messing] CHECK CONSTRAINT [FK_Messing_Weekday]
+GO
+ALTER TABLE [dbo].[Registration]  WITH CHECK ADD  CONSTRAINT [FK_Registration_Catagory] FOREIGN KEY([Catagory])
+REFERENCES [dbo].[Catagory] ([CatagoryId])
+GO
+ALTER TABLE [dbo].[Registration] CHECK CONSTRAINT [FK_Registration_Catagory]
+GO
+ALTER TABLE [dbo].[Registration]  WITH CHECK ADD  CONSTRAINT [FK_Registration_UserRole] FOREIGN KEY([UserRoleId])
+REFERENCES [dbo].[UserRole] ([UserRoleId])
+GO
+ALTER TABLE [dbo].[Registration] CHECK CONSTRAINT [FK_Registration_UserRole]
+GO

@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "BillReport";
+}
+
+<script>
+		function printDiv(divName){
+			var printContents = document.getElementById(divName).innerHTML;
+			var originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+		}
+</script>
+
+<div class="row"  id='printMe'>
+    @*<h2 style="margin-left:15px">Bill Report of @ViewBag.Month</h2>*@
+
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Bill Report of @ViewBag.Month</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Month
+                            </th>
+                            <th>
+                                Student
+                            </th>
+                            <th>
+                                Day
+                            </th>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                OrderDate
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in ViewBag.getMonthlyReport)
+                        {
+                            <tr>
+                                <td>
+                                    @i.Mont
+                                </td>
+                                <td>
+                                    @i.User
+                                </td>
+                                <td>
+                                    @i.Day
+                                </td>
+                                <td>
+                                    @i.Product
+                                </td>
+                                <td>
+                                    @i.Price
+                                </td>
+                                <td>
+                                    @i.OrderDate
+                                </td>
+                                <td>
+                                    @i.Type
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="hero bg-primary text-white">
+            <div class="hero-inner">
+                @foreach (var i in ViewBag.list)
+                {
+                    <h2>HouseRent : @i.HouseRent </h2>
+                    <h2>Internet: @i.Internet </h2>
+                    <h2>Laundry: @i.Laundry </h2>
+                    <h2>FoodBill: @i.FoodBill </h2>
+                    <hr style="border:1px solid white"/>
+                    <h2>Total : @ViewBag.Total</h2>
+                }
+                <p class="lead">@ViewBag.date</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="col-md-12">
+    <button onclick="printDiv('printMe')" class="btn btn-info">Donwload</button>
+</div>
+
+@*@foreach (var n in ViewBag.Total)
+    {
+        <h1>@n.Total</h1>
+    }*@
