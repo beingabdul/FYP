@@ -7,12 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HostalManagement.Models;
+using HostalManagement.Models.viewmodels;
 
 namespace HostalManagement.Controllers
 {
     public class StudentController : GlobalController
     {
-        private HostalManagementDB01Entities db = new HostalManagementDB01Entities();
+        private readonly HostalManagementDB01Entities db = new HostalManagementDB01Entities();
 
         public ActionResult Index()
         {
@@ -129,22 +130,41 @@ namespace HostalManagement.Controllers
         #region Apis
         public JsonResult GetMenu()
         {
-            var foodLists = db.FoodLists.Include(f => f.MealType).Include(f => f.Weekday).OrderBy(f => f.WeekdayId).ToList();
-            return Json(foodLists, JsonRequestBehavior.AllowGet);
+            List<FoodListsVM> foodlist = new List<FoodListsVM>();
+            foodlist = db.FoodLists.Select(p=> new FoodListsVM() {
+                MealTypeId = p.MealType.MealTypeId,
+                MealType = p.MealType.Name,
+                Weekday=p.Weekday.Name,
+                WeekdayId=p.Weekday.WeekdayId,
+                MealPrice=p.Price,
+                MealName=p.Name
+            }).OrderBy(f => f.WeekdayId).ToList();
+            return Json(foodlist, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult DailyMessing()
+        public JsonResult DailyMessing(int student_id)
         {
             DateTime dt = DateTime.Now;
             int mid = dt.Month;
-            var rid = SiteUser.RegistrationId;
             Month m = db.Months.FirstOrDefault(a => a.MonthId == mid);
             ViewBag.mname = m.Name;
-            var list = db.getMonthyReportOrderByStudentSingle(rid, mid).ToList();
+            var list = db.getMonthyReportOrderByStudentSingle(student_id, mid).ToList();
+            foreach (var item in list)
+            {
+                if (item.Status==false)
+                {
+                    list.Remove(item);
+                }
+            }
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetAttendance(int id)
+        public JsonResult GetAttendance(int student_id)
         {
-            var attandance = db.Attendances.Where(at => at.StdID == id).ToList();
+            List<AttendanceVM> attandance = new List<AttendanceVM>();
+            attandance = db.Attendances.Where(at => at.StdID == student_id).Select(a=> new AttendanceVM() { 
+            Date=a.Date,
+            CheckIn=a.CheckIn,
+            CheckOut=a.CheckOut
+            }).ToList();
             return Json(attandance, JsonRequestBehavior.AllowGet);
         }
         #endregion

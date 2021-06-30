@@ -126,7 +126,6 @@ namespace HostalManagement.Controllers
             var rid = b.RegistrationId;
             var mid = Convert.ToInt32(b.MonthId);
             ViewBag.getMonthlyReport = db.getMonthyReportOrderByStudent02(id).ToList();
-            //ViewBag.getMonthlyReport = db.getMonthyReportOrderByStudent01(rid, mid).ToList();
             ViewBag.list = db.Bills.Where(a => a.Billid == id && a.RegistrationId == rid && a.MonthId == mid).ToList();
             Month list = db.Months.FirstOrDefault(a => a.MonthId == mid);
             ViewBag.Month = list.Name;
@@ -600,5 +599,8 @@ namespace HostalManagement.Controllers
             }
 
         }
+        #region Api
+
+        #endregion
     }
 }

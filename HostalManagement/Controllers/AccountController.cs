@@ -1,4 +1,5 @@
 ﻿using HostalManagement.Models;
+using HostalManagement.Models.viewmodels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,14 +39,35 @@ namespace HostalManagement.Controllers
         /// <returns></returns>
         
         [HttpGet]
-        public JsonResult Studentlogin(string email, string password, bool st)
+        public JsonResult UserLogin(string email, string password, bool st)
         {
+            UserVm user = new UserVm();
             try
             {
-                Registration u = db.Registrations.FirstOrDefault(x => x.Email == email && x.Password == password);
-                if (u != null)
+                user = db.Registrations.Where(x => x.Email == email && x.Password == password).Select(i=> new UserVm{ 
+                RegistrationId=i.RegistrationId,
+                Name=i.Name,
+                FatherName=i.FatherName,
+                FatherRank=i.FatherRank,
+                FamilyNo=i.FamilyNo,
+                CNIC=i.CNIC,
+                ContactNo=i.ContactNo,
+                Email=i.Email,
+                BloodGroup=i.BloodGroup,
+                HomeAddress=i.HomeAddress,
+                Institute=i.Institute,
+                Degree=i.Degree,
+                DegreeSession=i.DegreeSession,
+                Convience=i.Convience,
+                LicenseNo=i.LicenseNo,
+                VehicleNo=i.VehicleNo,
+                Catagory=i.Catagory,
+                Photo=i.Photo,
+                UserRoleId=i.UserRoleId
+                }).FirstOrDefault();
+                if (user != null)
                 {
-                    return Json(u, JsonRequestBehavior.AllowGet);
+                    return Json(user, JsonRequestBehavior.AllowGet);
                 }
                 return Json("wrong email or password", JsonRequestBehavior.AllowGet);
             }
