@@ -15,6 +15,8 @@ namespace HostalManagement.Controllers
     {
         private readonly HostalManagementDB01Entities db = new HostalManagementDB01Entities();
 
+        #region WebApp
+
         public ActionResult Index()
         {
             if (!Authenticated)
@@ -47,7 +49,7 @@ namespace HostalManagement.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            
+
         }
         public JsonResult getFoodPlan(int id)
         {
@@ -92,7 +94,7 @@ namespace HostalManagement.Controllers
                 TempData["msg"] = String.Format("Dear " + name + " Your Order is Done, Please wait!");
                 return RedirectToAction("Ordernow");
             }
-            catch 
+            catch
             {
                 return View();
             }
@@ -105,67 +107,156 @@ namespace HostalManagement.Controllers
             }
             if (SiteUser.UserRoleId == 2)
             {
-                var foodLists = db.FoodLists.Include(f => f.MealType).Include(f => f.Weekday).OrderBy(f=>f.WeekdayId);
+                var foodLists = db.FoodLists.Include(f => f.MealType).Include(f => f.Weekday).OrderBy(f => f.WeekdayId);
                 return View(foodLists.ToList());
             }
             else
             {
                 return RedirectToAction("Login", "Home");
             }
-            
-        }
 
+        }
         public ActionResult CurrentStatus()
         {
             DateTime dt = DateTime.Now;
             int mid = dt.Month;
-            var rid =  SiteUser.RegistrationId;
+            var rid = SiteUser.RegistrationId;
             //Month month = new Month();
             //ViewBag.currentmonth = month.Name.Where();
             Month m = db.Months.FirstOrDefault(a => a.MonthId == mid);
-            ViewBag.mname =   m.Name;
+            ViewBag.mname = m.Name;
             ViewBag.list = db.getMonthyReportOrderByStudentSingle(rid, mid).ToList();
             return View();
         }
+        #endregion
+
+
         #region Apis
         public JsonResult GetMenu()
         {
-            List<FoodListsVM> foodlist = new List<FoodListsVM>();
-            foodlist = db.FoodLists.Select(p=> new FoodListsVM() {
-                MealTypeId = p.MealType.MealTypeId,
-                MealType = p.MealType.Name,
-                Weekday=p.Weekday.Name,
-                WeekdayId=p.Weekday.WeekdayId,
-                MealPrice=p.Price,
-                MealName=p.Name
-            }).OrderBy(f => f.WeekdayId).ToList();
-            return Json(foodlist, JsonRequestBehavior.AllowGet);
+            try
+            {
+                List<FoodListsVM> foodlist = new List<FoodListsVM>();
+                foodlist = db.FoodLists.Select(p => new FoodListsVM()
+                {
+                    MealTypeId = p.MealType.MealTypeId,
+                    MealType = p.MealType.Name,
+                    Weekday = p.Weekday.Name,
+                    WeekdayId = p.Weekday.WeekdayId,
+                    MealPrice = p.Price,
+                    MealName = p.Name
+                }).OrderBy(f => f.WeekdayId).ToList();
+                return Json(foodlist, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+                throw ex;
+            }
         }
         public JsonResult DailyMessing(int student_id)
         {
-            DateTime dt = DateTime.Now;
-            int mid = dt.Month;
-            Month m = db.Months.FirstOrDefault(a => a.MonthId == mid);
-            ViewBag.mname = m.Name;
-            var list = db.getMonthyReportOrderByStudentSingle(student_id, mid).ToList();
-            foreach (var item in list)
+            try
             {
-                if (item.Status==false)
-                {
-                    list.Remove(item);
-                }
+                DateTime dt = DateTime.Now;
+                int mid = dt.Month;
+                Month m = db.Months.FirstOrDefault(a => a.MonthId == mid);
+                ViewBag.mname = m.Name;
+                var list = db.getMonthyReportOrderByStudentSingle(student_id, mid).ToList();
+
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
-            return Json(list, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+                throw ex;
+            }
+
         }
         public JsonResult GetAttendance(int student_id)
         {
-            List<AttendanceVM> attandance = new List<AttendanceVM>();
-            attandance = db.Attendances.Where(at => at.StdID == student_id).Select(a=> new AttendanceVM() { 
-            Date=a.Date,
-            CheckIn=a.CheckIn,
-            CheckOut=a.CheckOut
-            }).ToList();
-            return Json(attandance, JsonRequestBehavior.AllowGet);
+            try
+            {
+                List<AttendanceVM> attandance = new List<AttendanceVM>();
+                attandance = db.Attendances.Where(at => at.StdID == student_id).Select(a => new AttendanceVM()
+                {
+                    Date = a.Date.ToString(),
+                    CheckIn = a.CheckIn.ToString(),
+                    CheckOut = a.CheckOut.ToString()
+                }).ToList();
+                return Json(attandance, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+                throw ex;
+            }
+
+        }
+
+        [HttpGet]
+        public JsonResult PlaceOrder()
+        {
+            try
+            {
+                PlaceOrder order = new PlaceOrder();
+                var day = DateTime.Now.DayOfWeek.ToString();
+                order.MealType = db.MealTypes.Select(m => new MealTypeVM{
+                    MealTypeId=m.MealTypeId,
+                    Name=m.Name 
+                }).ToList();
+                order.Weekday =  db.Weekdays.Where(a => a.Name == day).Select(m => new WeekdayVM{
+                    WeekdayId = m.WeekdayId, 
+                    Name = m.Name 
+                }).FirstOrDefault();
+                order.FoodList = db.FoodLists.Where(f => f.WeekdayId == order.Weekday.WeekdayId).Select(n => new FoodListVM{ 
+                    FoodListId = n.FoodListId, 
+                    Name = n.Name, 
+                    Price = n.Price,
+                    MealTypeId= (int)n.MealTypeId
+                }).ToList();
+                return Json(order, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                throw ex;
+            }
+        }
+        [HttpPost]
+        public JsonResult PlaceOrder(int student_id, int FoodListId, int MealTypeId, int WeekdayId)
+        {
+            try
+            {
+                Messing m = new Messing();
+                DateTime dt = DateTime.Now;
+                int year = dt.Year;
+                int month = dt.Month;
+                int day = dt.Day;
+                var orderdate = day + "-" + month + "-" + year;
+                //m.OrderDate = Convert.ToString(orderdate);
+                m.OrderDate = Convert.ToString(DateTime.Now);
+                m.MonthId = month;
+                m.WeekdayId = WeekdayId;
+                m.MealTypeId = MealTypeId;
+                m.Status = false;
+                m.Hostory = false;
+                m.RegistrationId = student_id;
+                m.FoodListId = FoodListId;
+                FoodList f = db.FoodLists.FirstOrDefault(a => a.FoodListId == FoodListId);
+                m.Price = Convert.ToInt32(f.Price);
+                db.Messings.Add(m);
+                if (db.SaveChanges() > 0)
+                {
+                    return Json("succes", JsonRequestBehavior.AllowGet);
+                }
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                throw ex;
+            }
         }
         #endregion
     }

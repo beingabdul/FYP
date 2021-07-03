@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using HostalManagement.Models;
@@ -14,6 +20,7 @@ namespace HostalManagement.Controllers
     public class AdminController : GlobalController
     {
         private readonly HostalManagementDB01Entities db = new HostalManagementDB01Entities();
+        private static string ServiceKey = ConfigurationManager.AppSettings["FaceServiceKey"];
         public ActionResult Index()
         {
             return View();
@@ -580,7 +587,7 @@ namespace HostalManagement.Controllers
             {
                 if (re.RegistrationId > 0 && re.Photo != "")
                 {
-                    
+
                     var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
                     user.Photo = re.Photo;
                     db.Entry(user).State = EntityState.Modified;
@@ -594,7 +601,7 @@ namespace HostalManagement.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message,JsonRequestBehavior.AllowGet);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
                 throw ex;
             }
 
