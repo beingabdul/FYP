@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HostalManagement.Models.Registration> 
+@{
+    ViewBag.Title = "ParentsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Parents Registration</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNIC)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="form-actions">
+    <input type="button" value="Register New User" class="btn btn-primary" id="btn-cre" />
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+        $(document).on('click', '#btn-cre', function () {
+            location.href = "/Admin/ParentsCreate";});
+</script>
+
+

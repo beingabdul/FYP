@@ -24,7 +24,7 @@
                 @*@Html.DropDownList("RegistrationId", null, new { @class = "form-control" })*@
                 @Html.DropDownList("RegistrationId", null, "--Select Student-- ", new { @class = "form-control" })
             </div>
-        </div>        
+        </div>
 
         <div class="align-self-md-end" , style="margin-left: 940px">
             <div class="col-md-offset-2 col-md-10">
@@ -34,3 +34,35 @@
     </div>
 }
 
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+@if (TempData["msg"] != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                var msg="@TempData["msg"]";
+                if (msg =="Bill Received!") {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: msg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+                else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Error',
+                        text: msg,
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+            };
+    </script>
+}

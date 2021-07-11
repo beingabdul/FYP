@@ -16,9 +16,12 @@ namespace HostalManagement
             try
             {
                 u = HttpContext.Current.Session["ActiveUser"] as Registration;
+                return u;
             }
-            catch { }
-            return u;
+            catch(Exception ex) {
+                return null;
+                throw ex;
+            }
         }
     }
 }

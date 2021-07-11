@@ -79,7 +79,30 @@
     <script type="text/javascript">
 
             window.onload = function () {
-                alert("@TempData["msg"]");
+                var msg = "@TempData["msg"]";
+                if (msg!="erro") {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Order Placed',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
+                else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong please try again',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(() => {
+                        window.location.reload();
+                    })
+                }
             };
     </script>
 }  

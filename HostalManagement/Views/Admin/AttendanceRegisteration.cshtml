@@ -64,6 +64,8 @@
 
     }
     function update_picture() {
+        $('#btn_submit').html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>');
+        $('#btn_submit').css('pointer-events', 'none');
         var user_id = $('#student').val();
         var img = $('#img').attr('src');
         var registr = { RegistrationId: user_id, Photo: img }
@@ -78,10 +80,18 @@
             contentType: "application/json;charset=utf-8",
             success: function (Rdata) {
                 if (Rdata != 'error') {
-                    alert("Profile Updated!").then(
-                        () => {
+                    Swal.fire(
+                        {
+                            title: 'Registered!',
+                            text: 'student registered for daily check-in/out successfully!',
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#5b73e8',
+                            cancelButtonColor: "#f46a6a"
+                        }
+                    ).then(() => {
                         window.location.reload();
-                    });
+                    })
                 }
                 else
                     alert("Database Error");

@@ -65,8 +65,23 @@ namespace HostalManagement.Controllers
                 Photo=i.Photo,
                 UserRoleId=i.UserRoleId
                 }).FirstOrDefault();
+                
                 if (user != null)
                 {
+                    if (user.UserRoleId == 5)
+                    {
+                        ParentVM p = new ParentVM
+                        {
+                            Name = user.Name,
+                            Email = user.Email,
+                            ContactNo = user.ContactNo,
+                            StudentID = user.FamilyNo,
+                            RegistrationId = user.RegistrationId,
+                            CNIC = user.CNIC,
+                            UserRoleId = user.UserRoleId
+                        };
+                        return Json(p, JsonRequestBehavior.AllowGet);
+                    }
                     return Json(user, JsonRequestBehavior.AllowGet);
                 }
                 return Json("wrong email or password", JsonRequestBehavior.AllowGet);

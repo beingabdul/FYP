@@ -85,18 +85,26 @@ namespace HostalManagement.Controllers
                 FoodList f = db.FoodLists.FirstOrDefault(a => a.FoodListId == m.FoodListId);
                 m.Price = Convert.ToInt32(f.Price);
                 db.Messings.Add(m);
-                db.SaveChanges();
-
                 var nowday = DateTime.Now.DayOfWeek.ToString();
                 ViewBag.WeekdayId = new SelectList(db.Weekdays.Where(a => a.Name == nowday), "WeekdayId", "Name");
                 ViewBag.MealTypeId = new SelectList(db.MealTypes, "MealTypeId", "Name");
                 var name = SiteUser.Name;
-                TempData["msg"] = String.Format("Dear " + name + " Your Order is Done, Please wait!");
+                if (db.SaveChanges()>0)
+                {
+                    TempData["msg"] = String.Format("Dear " + name + " Your Order is Done, Please wait!");
+                }
+                else
+                {
+                    TempData["msg"] = String.Format("error");
+                }
+                
                 return RedirectToAction("Ordernow");
             }
-            catch
+            catch(Exception ex)
             {
+                TempData["msg"] = String.Format("error");
                 return View();
+                throw ex;
             }
         }
         public ActionResult Foodlist()

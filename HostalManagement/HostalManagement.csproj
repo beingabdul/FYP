@@ -143,6 +143,7 @@
     <Compile Include="Controllers\ExtraController.cs" />
     <Compile Include="Controllers\GlobalController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ParentVM.cs" />
     <Compile Include="Controllers\PlaceOrder.cs" />
     <Compile Include="Controllers\StoremanController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -241,6 +242,7 @@
     <Content Include="Assets\css\vegas.min.css" />
     <Content Include="Assets\font\flaticon.css" />
     <Content Include="Assets\font\Flaticon.svg" />
+    <Content Include="Assets\images\Test\7fd87f50-6.png" />
     <Content Include="Assets\img\cam.jpg" />
     <Content Include="Assets\img\dms.png" />
     <Content Include="Assets\img\elements\otp-icon.png" />
@@ -324,6 +326,9 @@
     <Content Include="Assets\js\validator.min.js" />
     <Content Include="Assets\js\vegas.min.js" />
     <Content Include="Assets\style.css" />
+    <Content Include="Assets\sweet-alerts.init.js" />
+    <Content Include="Assets\sweetalert2.min.css" />
+    <Content Include="Assets\sweetalert2.min.js" />
     <Content Include="Assets\webfonts\fa-brands-400.html" />
     <Content Include="Assets\webfonts\fa-regular-400.html" />
     <Content Include="Assets\webfonts\fa-solid-900.html" />
@@ -1487,6 +1492,8 @@
     <Content Include="Views\Account\SignIn.cshtml" />
     <Content Include="Views\Admin\AttendanceRegisteration.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Admin\ParentsList.cshtml" />
+    <Content Include="Views\Admin\ParentsCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

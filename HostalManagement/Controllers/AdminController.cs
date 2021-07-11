@@ -39,7 +39,7 @@ namespace HostalManagement.Controllers
             DateTime dt = DateTime.Now;
             int month = dt.Month;
             ViewBag.RegistrationId = new SelectList(listOfgetDepartment, "Value", "Text");
-            ViewBag.MonthId = new SelectList(db.Months.Where(a => a.MonthId <= month), "MonthId", "Name");
+            ViewBag.MonthId = new SelectList(db.Months.Where(a => a.MonthId < month), "MonthId", "Name");
             return View();
         }
 
@@ -53,7 +53,7 @@ namespace HostalManagement.Controllers
 
             var rid = b.RegistrationId;
             var mid = Convert.ToInt32(b.MonthId);
-            if (day == 18)
+            if (day <= 10)
             {
                 Messing check = db.Messings.FirstOrDefault(a => a.RegistrationId == rid && a.MonthId == mid && a.Hostory == false);
                 if (check != null)
@@ -99,7 +99,7 @@ namespace HostalManagement.Controllers
                             }
 
                         }
-                        TempData["msg"] = String.Format("Bill Generated !");
+                        TempData["msg"] = String.Format("Bill Generated!");
                         return RedirectToAction("Index");
                     }
                     else
@@ -159,24 +159,34 @@ namespace HostalManagement.Controllers
         [HttpPost]
         public ActionResult ReceiveStdBills(Registration r)
         {
-            Bill bill = db.Bills.FirstOrDefault(x => x.RegistrationId == r.RegistrationId);
-            if (bill != null)
+            try
             {
-                BillAudit billaudit = db.BillAudits.FirstOrDefault(x => x.Billid == bill.Billid);
-                if (billaudit != null)
+                Bill bill = db.Bills.FirstOrDefault(x => x.RegistrationId == r.RegistrationId);
+                if (bill != null)
                 {
-                    Messing messing = db.Messings.FirstOrDefault(x => x.MessingId == billaudit.MessingId);
-                    if (messing != null)
+                    BillAudit billaudit = db.BillAudits.FirstOrDefault(x => x.Billid == bill.Billid);
+                    if (billaudit != null)
                     {
+                        Messing messing = db.Messings.FirstOrDefault(x => x.MessingId == billaudit.MessingId);
+                        if (messing != null)
+                        {
 
-                        db.Messings.Remove(messing);
+                            db.Messings.Remove(messing);
+                        }
+                        db.BillAudits.Remove(billaudit);
                     }
-                    db.BillAudits.Remove(billaudit);
+                    db.Bills.Remove(bill);
+                    db.SaveChanges();
+                    TempData["msg"] = String.Format("Bill Received!");
+                    }
+                    return RedirectToAction("ReceiveStdBills");
                 }
-                db.Bills.Remove(bill);
-                db.SaveChanges();
+            catch (Exception ex)
+            {
+                TempData["msg"] = String.Format("error");
+                return RedirectToAction("ReceiveStdBills");
+                throw ex;
             }
-            return RedirectToAction("StudentList");
         }
         #endregion
         #region student
@@ -257,8 +267,6 @@ namespace HostalManagement.Controllers
             ViewBag.UserRoleId = new SelectList(db.UserRoles, "UserRoleId", "Name", registration.UserRoleId);
             return View(registration);
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult StudentEdit([Bind(Include = "RegistrationId,Name,FatherName,FatherRank,CNIC,ContactNo,Email,Password,FamilyNo,BloodGroup,HomeAddress,Institute,Degree,DegreeSession,Convience,VehicleNo,LicenseNo,Catagory,UserRoleId")] Registration registration)
@@ -587,9 +595,38 @@ namespace HostalManagement.Controllers
             {
                 if (re.RegistrationId > 0 && re.Photo != "")
                 {
-
+                    string randomFileName = Guid.NewGuid().ToString().Substring(0, 10) + ".png";
+                    String path = Server.MapPath("~/assets/images/Test/"); //Path
+                    //Check if directory exist
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                    }
+                    //if (re.Photo.Contains("jpeg"))
+                    //{
+                    //    randomFileName = Guid.NewGuid().ToString().Substring(0, 4) + ".jpg";
+                    //}
+                    //else if (re.Photo.Contains("png"))
+                    //{
+                    //    randomFileName = Guid.NewGuid().ToString().Substring(0, 4) + ".png";
+                    //}
+                    //else
+                    //{
+                    //    randomFileName = Guid.NewGuid().ToString().Substring(0, 4) + ".gif";
+                    //}
+                    // set the image path
+                    string imgPath = Path.Combine(path, randomFileName);
+                    string t = re.Photo.Substring(re.Photo.IndexOf(',') + 1);//remove data:image/png;base64, till ,                
+                    string t2 = t.Remove(t.Length - 1, 1);
+                    byte[] bytes = Convert.FromBase64String(t);
+                    //Image image;
+                    //using (MemoryStream ms = new MemoryStream(bytes))
+                    //{
+                    //    image = Image.FromStream(ms);
+                    //}
+                    System.IO.File.WriteAllBytes(imgPath, Convert.FromBase64String(t));
                     var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
-                    user.Photo = re.Photo;
+                    user.Photo = imgPath;
                     db.Entry(user).State = EntityState.Modified;
                     if (db.SaveChanges() > 0)
                     {
@@ -606,8 +643,58 @@ namespace HostalManagement.Controllers
             }
 
         }
-        #region Api
 
+        #region Parents
+        public ActionResult ParentsList()
+        {
+            var registrations = db.Registrations.Where(a => a.UserRoleId == 5).Include(r => r.Catagory1).Include(r => r.UserRole);
+            return View(registrations.ToList());
+        }
+        public ActionResult ParentsCreate()
+        {
+
+            ViewBag.Students = db.Registrations.Where(a => a.UserRoleId == 2).ToList();
+            ViewBag.UserRoleId = new SelectList(db.UserRoles.Where(a => a.UserRoleId == 5), "UserRoleId", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ParentsCreate(Registration reg)
+        {
+            string status;
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    Registration r = db.Registrations.FirstOrDefault(x => x.CNIC == reg.CNIC || x.Email == reg.Email);
+                    if (r != null)
+                    {
+                        status = "yes";
+                        return Content(status);
+                    }
+                    reg.UserRoleId = 5;
+                    db.Registrations.Add(reg);
+                    db.SaveChanges();
+
+                    status = "success";
+                    return Content(status);
+                }
+
+                else
+                {
+                    status = "error";
+                    return Content(status);
+                }
+
+
+            }
+            catch (Exception)
+            {
+                status = "error";
+                return Content(status);
+            }
+        }
         #endregion
     }
 }

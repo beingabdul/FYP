@@ -79,24 +79,46 @@
 <script>
     $('.ready').click(function (e) {
             e.preventDefault();
-            var $ctrl = $(this);
-            if (confirm('Do you want to Place Order?')) {
-                $.ajax({
+        var $ctrl = $(this);
+        var id = $(this).data('id');
+            Swal.fire({
+                title: "Place Order!",
+                text: "Do you want to place this Order?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#34c38f",
+                cancelButtonColor: "#f46a6a",
+                confirmButtonText: "Yes"
+            }).then(function (result) {
+                if (result.value) {
+                    $.ajax({
                     url: '@Url.Action("ReadytoCook")',
                     type: 'POST',
-                    data: { id: $(this).data('id') }
+                        data: {
+                            id: id,
+
+                        }
                 }).done(function (data) {
                     if (data.Result == "OK") {
                         $ctrl.closest('tr').remove();
-                        alert("Order placed successfully!")
-                    }
-                    else if (data.Result.Message) {
-                        alert(data.Result.Message);
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Order Placed',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 }).fail(function () {
-                    alert("There is something wrong. Please try again.");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Order Placed',
+                        showConfirmButton: false,
+                        timer: 15000
+                    })
                 })
-
-            }
+                }
+            });
         });
 </script>
