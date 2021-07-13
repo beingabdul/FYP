@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HostalManagementDB01Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HostalManagementDB01Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Attendance">
           <Key>
             <PropertyRef Name="ID" />
@@ -108,6 +108,7 @@
           <Property Name="Catagory" Type="int" />
           <Property Name="UserRoleId" Type="int" />
           <Property Name="Photo" Type="varchar(max)" />
+          <Property Name="FaceId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="tbl_ExtraMealMenu">
           <Key>
@@ -142,7 +143,19 @@
           <Property Name="WeekdayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__tbl_Weekl__Weekd__7F2BE32F">
+        <Association Name="FK__tbl_Weekl__Weekd__2645B050">
+          <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
+          <End Role="tbl_WeeklyMealMenu" Type="Self.tbl_WeeklyMealMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Weekday">
+              <PropertyRef Name="WeekdayId" />
+            </Principal>
+            <Dependent Role="tbl_WeeklyMealMenu">
+              <PropertyRef Name="WeekdayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Weekl__Weekd__3587F3E0">
           <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
           <End Role="tbl_WeeklyMealMenu" Type="Self.tbl_WeeklyMealMenu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -346,7 +359,11 @@
           <EntitySet Name="tbl_WeeklyMealMenu" EntityType="Self.tbl_WeeklyMealMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Weekday" EntityType="Self.Weekday" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__tbl_Weekl__Weekd__7F2BE32F" Association="Self.FK__tbl_Weekl__Weekd__7F2BE32F">
+          <AssociationSet Name="FK__tbl_Weekl__Weekd__2645B050" Association="Self.FK__tbl_Weekl__Weekd__2645B050">
+            <End Role="Weekday" EntitySet="Weekday" />
+            <End Role="tbl_WeeklyMealMenu" EntitySet="tbl_WeeklyMealMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Weekl__Weekd__3587F3E0" Association="Self.FK__tbl_Weekl__Weekd__3587F3E0">
             <End Role="Weekday" EntitySet="Weekday" />
             <End Role="tbl_WeeklyMealMenu" EntitySet="tbl_WeeklyMealMenu" />
           </AssociationSet>
@@ -395,8 +412,7 @@
             <End Role="Registration" EntitySet="Registration" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HostalManagementDB01Model1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -522,6 +538,7 @@
           <NavigationProperty Name="Catagory1" Relationship="Self.FK_Registration_Catagory" FromRole="Registration" ToRole="Catagory" />
           <NavigationProperty Name="Messings" Relationship="Self.FK_Messing_Registration" FromRole="Registration" ToRole="Messing" />
           <NavigationProperty Name="UserRole" Relationship="Self.FK_Registration_UserRole" FromRole="Registration" ToRole="UserRole" />
+          <Property Name="FaceId" Type="Guid" />
         </EntityType>
         <EntityType Name="tbl_ExtraMealMenu">
           <Key>
@@ -768,11 +785,11 @@
             <End Role="tbl_WeeklyMealMenu" EntitySet="tbl_WeeklyMealMenu" />
           </AssociationSet>
           <FunctionImport Name="DropBillRecord">
-            <Parameter Name="stdId" Mode="In" Type="Int32" />
+          <Parameter Name="stdId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getExtraMessing" ReturnType="Collection(HostalManagementDB01Model1.getExtraMessing_Result)" />
           <FunctionImport Name="getMenuToday" ReturnType="Collection(HostalManagementDB01Model1.getMenuToday_Result)">
-            <Parameter Name="toady" Mode="In" Type="String" />
+          <Parameter Name="toady" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="getMonthyReportOrderByStudent" ReturnType="Collection(HostalManagementDB01Model1.getMonthyReportOrderByStudent_Result)">
             <Parameter Name="rid" Mode="In" Type="Int32" />
@@ -783,7 +800,7 @@
             <Parameter Name="mid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getMonthyReportOrderByStudent02" ReturnType="Collection(HostalManagementDB01Model1.getMonthyReportOrderByStudent02_Result)">
-            <Parameter Name="bid" Mode="In" Type="Int32" />
+          <Parameter Name="bid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getMonthyReportOrderByStudentSingle" ReturnType="Collection(HostalManagementDB01Model1.getMonthyReportOrderByStudentSingle_Result)">
             <Parameter Name="rid" Mode="In" Type="Int32" />
@@ -794,23 +811,23 @@
             <Parameter Name="mid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getReadytoCook">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getTheMonthyReportOrderbyStudent" ReturnType="Collection(HostalManagementDB01Model1.getTheMonthyReportOrderbyStudent_Result)">
             <Parameter Name="rid" Mode="In" Type="Int32" />
             <Parameter Name="mid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getTotal" ReturnType="Collection(Int32)">
-            <Parameter Name="rid" Mode="In" Type="Int32" />
+          <Parameter Name="rid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getTotal01" ReturnType="Collection(Int32)">
-            <Parameter Name="BID" Mode="In" Type="Int32" />
+          <Parameter Name="BID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getTotal02" ReturnType="Collection(Int32)">
-            <Parameter Name="BID" Mode="In" Type="Int32" />
+          <Parameter Name="BID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getTotal03" ReturnType="Collection(Int32)">
-            <Parameter Name="BID" Mode="In" Type="Int32" />
+          <Parameter Name="BID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="getWeeklyMealMenu01" ReturnType="Collection(HostalManagementDB01Model1.getWeeklyMealMenu01_Result)" />
         </EntityContainer>
@@ -979,6 +996,7 @@
           <EntitySetMapping Name="Registrations">
             <EntityTypeMapping TypeName="HostalManagementDB01Model1.Registration">
               <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="FaceId" ColumnName="FaceId" />
                 <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FatherName" ColumnName="FatherName" />
