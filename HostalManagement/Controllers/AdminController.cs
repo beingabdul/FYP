@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using HostalManagement.Helpers;
 using HostalManagement.Models;
 using Newtonsoft.Json;
 
@@ -589,7 +590,7 @@ namespace HostalManagement.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AttendanceRegisteration(Registration re)
+        public async Task<JsonResult> AttendanceRegisterationAsync(Registration re)
         {
             try
             {
@@ -625,8 +626,19 @@ namespace HostalManagement.Controllers
                     //    image = Image.FromStream(ms);
                     //}
                     System.IO.File.WriteAllBytes(imgPath, Convert.FromBase64String(t));
+                    FaceDetectionHelper fd = new FaceDetectionHelper();
+                    
+                    //Below commented function was used for testing only no need to uncomment
+                   // var userverify = await fd.ValidateUser(Guid.Parse("{ffaad433-a755-4c2d-a391-2dbfd86db061}"));
+
+                    var detectedFaceId =await fd.UploadAndDetectFaces(imgPath);
+                   
                     var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
                     user.Photo = imgPath;
+                    if (detectedFaceId!=null && detectedFaceId!=Guid.Empty)
+                    {
+                        user.FaceId = detectedFaceId.Value;
+                    }
                     db.Entry(user).State = EntityState.Modified;
                     if (db.SaveChanges() > 0)
                     {

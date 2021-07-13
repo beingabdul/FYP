@@ -42,6 +42,7 @@ namespace HostalManagement.Models
         public Nullable<int> Catagory { get; set; }
         public Nullable<int> UserRoleId { get; set; }
         public string Photo { get; set; }
+        public Nullable<System.Guid> FaceId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attendance> Attendances { get; set; }
