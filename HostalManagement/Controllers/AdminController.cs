@@ -609,8 +609,8 @@ namespace HostalManagement.Controllers
                     FaceDetectionHelper fd = new FaceDetectionHelper();
 
                     var detectedFaceId =await fd.UploadAndDetectFaces(imgPath);
-                   
-                    var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
+
+                    Registration user = new Registration();
                     user.Photo = imgPath;
                     if (detectedFaceId!=null && detectedFaceId!=Guid.Empty)
                     {
