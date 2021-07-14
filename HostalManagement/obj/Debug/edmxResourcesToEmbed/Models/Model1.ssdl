@@ -103,6 +103,7 @@
     <Property Name="Catagory" Type="int" />
     <Property Name="UserRoleId" Type="int" />
     <Property Name="Photo" Type="varchar(max)" />
+    <Property Name="FaceId" Type="uniqueidentifier" />
   </EntityType>
   <EntityType Name="tbl_ExtraMealMenu">
     <Key>
@@ -137,7 +138,19 @@
     <Property Name="WeekdayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" />
   </EntityType>
-  <Association Name="FK__tbl_Weekl__Weekd__7F2BE32F">
+  <Association Name="FK__tbl_Weekl__Weekd__2645B050">
+    <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
+    <End Role="tbl_WeeklyMealMenu" Type="Self.tbl_WeeklyMealMenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Weekday">
+        <PropertyRef Name="WeekdayId" />
+      </Principal>
+      <Dependent Role="tbl_WeeklyMealMenu">
+        <PropertyRef Name="WeekdayId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Weekl__Weekd__3587F3E0">
     <End Role="Weekday" Type="Self.Weekday" Multiplicity="0..1" />
     <End Role="tbl_WeeklyMealMenu" Type="Self.tbl_WeeklyMealMenu" Multiplicity="*" />
     <ReferentialConstraint>
@@ -341,7 +354,11 @@
     <EntitySet Name="tbl_WeeklyMealMenu" EntityType="Self.tbl_WeeklyMealMenu" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Weekday" EntityType="Self.Weekday" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__tbl_Weekl__Weekd__7F2BE32F" Association="Self.FK__tbl_Weekl__Weekd__7F2BE32F">
+    <AssociationSet Name="FK__tbl_Weekl__Weekd__2645B050" Association="Self.FK__tbl_Weekl__Weekd__2645B050">
+      <End Role="Weekday" EntitySet="Weekday" />
+      <End Role="tbl_WeeklyMealMenu" EntitySet="tbl_WeeklyMealMenu" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Weekl__Weekd__3587F3E0" Association="Self.FK__tbl_Weekl__Weekd__3587F3E0">
       <End Role="Weekday" EntitySet="Weekday" />
       <End Role="tbl_WeeklyMealMenu" EntitySet="tbl_WeeklyMealMenu" />
     </AssociationSet>

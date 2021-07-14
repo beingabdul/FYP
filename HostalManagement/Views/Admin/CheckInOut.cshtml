@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "CheckInOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .col-md-6 > .card-body {
+        background-color: white;
+        border-radius: 16px;
+        max-height: 400px;
+        box-shadow: 1px 1px 20px 0px #0080007d;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <h2>Daily <small> Check In/Out</small></h2>
+    </div>
+</div>
+<div class="container">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-12">
+                <div class="card-body" style="text-align:center;">
+                    <img id="img_default" src="~/Assets/img/dms.png" style="width: 400px;"/>
+                    <img id="processing" style="display:none;width: 350px; position: absolute; z-index: 9; margin-left: 13%;" src="~/Assets/img/processing.jpg"/>
+                    <video id="webcam" autoplay playsinline style="width:100%;height:100%;"></video>
+                    <canvas id="canvas" class="d-none"></canvas>
+                    <img id="img" style="display:none" width="640" height="480" />
+                    <audio id="snapSound" src="audio/snap.wav" preload="auto"></audio>
+                    <a id="btn_submit" onclick="update_picture()" style="color:white; display:none;" class="btn btn-primary"></a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-12">
+                <div class="card-body">
+                    <div style="width: 100%; min-height: 261px; display: flex; flex-direction: column; justify-content: center; background-image: url(/Assets/img/elements/otp-icon.png); background-size: contain; background-position: center; background-repeat: no-repeat;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <a id="btn_submit" onclick="open_camera(0)" style="color:white;margin:5px 0px;" class="btn btn-info">Check-In</a>
+                        <a id="btn_submit" onclick="open_camera(1)" style="color:white;margin:5px 0px;" class="btn btn-success">Check-Out</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    function open_camera(num) {
+    const webcamElement = document.getElementById('webcam');
+    const canvasElement = document.getElementById('canvas');
+    const snapSoundElement = document.getElementById('snapSound');
+    const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+        $('#img_default').css("display", "none");
+    webcam.start()
+        .then(result => {
+            console.log("webcam started");
+        }).then(() => {
+            setTimeout(() => {
+                update_picture(webcam,num);
+            },5000)
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+    }
+    function update_picture(webcam,num) {
+        let picture = webcam.snap();
+        $('#processing').css('display', 'block');
+        $('#img').attr('src', picture);
+        var user_id = $('#student').val();
+        var img = $('#img').attr('src');
+        var registr = { RegistrationId: user_id, Photo: img }
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/Admin/AttendanceAsync",
+            data: JSON.stringify({
+                re: registr
+            }),
+            processData: false,
+            contentType: "application/json;charset=utf-8",
+            success: function (Rdata) {
+                if (Rdata != 'error') {
+                    if (num==0) {
+                        Swal.fire(
+                            {
+                                title: 'Checked-In!',
+                                text: 'student checked in successfully!',
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#5b73e8',
+                                cancelButtonColor: "#f46a6a"
+                            }
+                        ).then(() => {
+                            window.location.reload();
+                        })
+                    }
+                    else {
+                        Swal.fire(
+                            {
+                                title: 'Checked-Out!',
+                                text: 'student checked out successfully!',
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#5b73e8',
+                                cancelButtonColor: "#f46a6a"
+                            }
+                        ).then(() => {
+                            window.location.reload();
+                        })
+                    }
+                    
+                }
+                else
+                    alert("Database Error");
+            },
+        });
+    }
+</script>

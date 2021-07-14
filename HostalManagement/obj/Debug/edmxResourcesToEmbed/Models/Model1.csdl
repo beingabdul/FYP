@@ -122,6 +122,7 @@
     <NavigationProperty Name="Catagory1" Relationship="Self.FK_Registration_Catagory" FromRole="Registration" ToRole="Catagory" />
     <NavigationProperty Name="Messings" Relationship="Self.FK_Messing_Registration" FromRole="Registration" ToRole="Messing" />
     <NavigationProperty Name="UserRole" Relationship="Self.FK_Registration_UserRole" FromRole="Registration" ToRole="UserRole" />
+    <Property Name="FaceId" Type="Guid" />
   </EntityType>
   <EntityType Name="tbl_ExtraMealMenu">
     <Key>

@@ -91,6 +91,7 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="HostalManagementDB01Model1.Registration">
         <MappingFragment StoreEntitySet="Registration">
+          <ScalarProperty Name="FaceId" ColumnName="FaceId" />
           <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="FatherName" ColumnName="FatherName" />

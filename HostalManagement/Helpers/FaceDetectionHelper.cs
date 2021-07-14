@@ -19,7 +19,7 @@ namespace HostalManagement.Helpers
         private static readonly IFaceClient faceClient = new FaceClient(
            new ApiKeyServiceClientCredentials(ConfigurationManager.AppSettings["subscriptionKey"]),
            new System.Net.Http.DelegatingHandler[] { });
-        private static string faceEndpoint = ConfigurationManager.AppSettings["Endpoint"];
+        private static readonly string faceEndpoint = ConfigurationManager.AppSettings["Endpoint"];
         public async Task<Guid?> UploadAndDetectFaces(string imageFilePath)
         {
             // The list of Face attributes to return.
@@ -64,12 +64,14 @@ namespace HostalManagement.Helpers
             {
                 //return new DetectedFace();
                 return null;
+                throw f;
             }
             // Catch and display all other errors.
             catch (Exception e)
             {
                 //MessageBox.Show(e.Message, "Error");
                 return null;
+                throw e;
             }
         }
 

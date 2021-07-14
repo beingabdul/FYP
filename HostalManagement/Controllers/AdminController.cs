@@ -1,27 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using HostalManagement.Helpers;
 using HostalManagement.Models;
 using Newtonsoft.Json;
-
 namespace HostalManagement.Controllers
 {
     public class AdminController : GlobalController
     {
         private readonly HostalManagementDB01Entities db = new HostalManagementDB01Entities();
-        private static string ServiceKey = ConfigurationManager.AppSettings["FaceServiceKey"];
+        private static readonly string ServiceKey = ConfigurationManager.AppSettings["FaceServiceKey"];
         public ActionResult Index()
         {
             return View();
@@ -588,6 +582,58 @@ namespace HostalManagement.Controllers
         {
             ViewBag.stds = db.Registrations.Where(a => a.UserRoleId == 2).ToList();
             return View();
+        }
+        public ActionResult CheckInOut()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<JsonResult> AttendanceAsync(Registration re)
+        {
+            try
+            {
+                if (re.Photo != "")
+                {
+                    string randomFileName = Guid.NewGuid().ToString().Substring(0, 10) + ".png";
+                    String path = Server.MapPath("~/assets/images/Test/"); //Path
+                    //Check if directory exist
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                    }
+                    string imgPath = Path.Combine(path, randomFileName);
+                    string t = re.Photo.Substring(re.Photo.IndexOf(',') + 1);//remove data:image/png;base64, till ,                
+                    string t2 = t.Remove(t.Length - 1, 1);
+                    byte[] bytes = Convert.FromBase64String(t);
+                    System.IO.File.WriteAllBytes(imgPath, Convert.FromBase64String(t));
+                    FaceDetectionHelper fd = new FaceDetectionHelper();
+
+                    var detectedFaceId =await fd.UploadAndDetectFaces(imgPath);
+                   
+                    var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
+                    user.Photo = imgPath;
+                    if (detectedFaceId!=null && detectedFaceId!=Guid.Empty)
+                    {
+                        user.FaceId = detectedFaceId.Value;
+                    }
+                    //Do your work here and please return object with status("success/error")-and on the basis of these 
+                    //I am goin to show notification.
+                    //write here I am just assuming them.
+                    //db.Entry(user).State = EntityState.Modified;
+                    if (detectedFaceId.HasValue)
+                    {
+                        return Json("success", JsonRequestBehavior.AllowGet);
+                    }
+                    return Json("error", JsonRequestBehavior.AllowGet);
+                }
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                throw ex;
+            }
+
         }
         [HttpPost]
         public async Task<JsonResult> AttendanceRegisterationAsync(Registration re)
