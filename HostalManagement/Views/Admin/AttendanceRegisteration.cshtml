@@ -26,8 +26,11 @@
                 <canvas id="canvas" class="d-none"></canvas>
                 <img id="img" style="display:none" width="640" height="480"/>
                 <audio id="snapSound" src="audio/snap.wav" preload="auto"></audio>
-                <a onclick="takephoto()" id="take-photo" title="Take Photo"><img style="position: relative; top: -50px; left: -32%;" src="~/Assets/img/unnamed.png" width="40"/>
+                <a onclick="takephoto()" id="take-photo" title="Take Photo"><img style="position: relative; top: -50px; left: 48%;" src="~/Assets/img/unnamed.png" width="40"/>
                 </a>
+            </div>
+            <div>
+                <p class="text-danger">Note: make your face clear, do not wear a mask while registration</p>
             </div>
             <div class="mt-5">
                 <a id="btn_submit" onclick="update_picture()" style="color:white; display:none;" class="btn btn-primary">Register</a>
@@ -79,7 +82,7 @@
             processData: false,
             contentType: "application/json;charset=utf-8",
             success: function (Rdata) {
-                if (Rdata != 'error') {
+                if (Rdata == 'success') {
                     Swal.fire(
                         {
                             title: 'Registered!',
@@ -93,8 +96,23 @@
                         window.location.reload();
                     })
                 }
-                else
+                else if (Rdata == 'success') {
+                    Swal.fire(
+                        {
+                            title: 'Registered!',
+                            text: 'student already registered!',
+                            icon: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: '#5b73e8',
+                            cancelButtonColor: "#f46a6a"
+                        }
+                    ).then(() => {
+                        window.location.reload();
+                    })
+                }
+                else {
                     alert("Database Error");
+                }
             },
         });
     }

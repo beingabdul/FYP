@@ -152,7 +152,8 @@ namespace HostalManagement.Controllers
                     Weekday = p.Weekday.Name,
                     WeekdayId = p.Weekday.WeekdayId,
                     MealPrice = p.Price,
-                    MealName = p.Name
+                    MealName = p.Name,
+                    FoodListId=p.FoodListId
                 }).OrderBy(f => f.WeekdayId).ToList();
                 return Json(foodlist, JsonRequestBehavior.AllowGet);
             }
@@ -190,7 +191,8 @@ namespace HostalManagement.Controllers
                 {
                     Date = a.Date.ToString(),
                     CheckIn = a.CheckIn.ToString(),
-                    CheckOut = a.CheckOut.ToString()
+                    CheckOut = a.CheckOut.ToString(),
+                    StdID=a.StdID
                 }).ToList();
                 return Json(attandance, JsonRequestBehavior.AllowGet);
             }

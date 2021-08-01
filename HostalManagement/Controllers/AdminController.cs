@@ -592,6 +592,7 @@ namespace HostalManagement.Controllers
         {
             try
             {
+                var ch_st =Convert.ToInt32(re.ContactNo);//0. checkin 1.checkout
                 if (re.Photo != "")
                 {
                     string randomFileName = Guid.NewGuid().ToString().Substring(0, 10) + ".png";
@@ -612,7 +613,7 @@ namespace HostalManagement.Controllers
 
                     Registration user = new Registration();
                     user.Photo = imgPath;
-                    if (detectedFaceId!=null && detectedFaceId!=Guid.Empty)
+                    if (detectedFaceId !=null && detectedFaceId!=Guid.Empty)
                     {
                         user.FaceId = detectedFaceId.Value;
                     }
@@ -680,6 +681,10 @@ namespace HostalManagement.Controllers
                     var detectedFaceId =await fd.UploadAndDetectFaces(imgPath);
                    
                     var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
+                    if (user.Photo != null)
+                    {
+                        return Json("exists", JsonRequestBehavior.AllowGet);
+                    }
                     user.Photo = imgPath;
                     if (detectedFaceId!=null && detectedFaceId!=Guid.Empty)
                     {

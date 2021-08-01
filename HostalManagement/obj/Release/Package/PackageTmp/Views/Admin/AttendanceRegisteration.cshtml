@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                <video id="webcam" autoplay playsinline height="480" style="width:100%;"></video>
                 <canvas id="canvas" class="d-none"></canvas>
                 <img id="img" style="display:none" width="640" height="480"/>
                 <audio id="snapSound" src="audio/snap.wav" preload="auto"></audio>
@@ -72,7 +72,7 @@
         $.ajax({
             type: "POST",
             cache: false,
-            url: "/Admin/AttendanceRegisteration",
+            url: "/Admin/AttendanceRegisterationAsync",
             data: JSON.stringify({
                 re: registr
             }),

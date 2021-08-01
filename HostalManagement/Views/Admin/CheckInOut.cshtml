@@ -71,7 +71,7 @@
         $('#img').attr('src', picture);
         var user_id = $('#student').val();
         var img = $('#img').attr('src');
-        var registr = { RegistrationId: user_id, Photo: img }
+        var registr = { RegistrationId: user_id, Photo: img, ContactNo: num }//0. checkin 1.checkout
         $.ajax({
             type: "POST",
             cache: false,

@@ -82,8 +82,6 @@ C:\Users\ALIGN\OneDrive\Project\HMS\HostalManagement\HostalManagement\bin\Entity
 C:\Users\ALIGN\OneDrive\Project\HMS\HostalManagement\HostalManagement\bin\EntityFramework.SqlServer.dll
 C:\Users\ALIGN\OneDrive\Project\HMS\HostalManagement\HostalManagement\bin\EntityFramework.xml
 C:\Users\ALIGN\OneDrive\Project\HMS\HostalManagement\HostalManagement\bin\EntityFramework.SqlServer.xml
-D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.csprojAssemblyReference.cache
-D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.csproj.CoreCompileInputs.cache
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\HostalManagement.dll.config
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\HostalManagement.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\HostalManagement.pdb
@@ -145,6 +143,7 @@ D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Micro
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Microsoft.Rest.ClientRuntime.Azure.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Microsoft.Rest.ClientRuntime.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Microsoft.Web.Infrastructure.dll
+D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Newtonsoft.Json.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Buffers.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Diagnostics.DiagnosticSource.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Memory.dll
@@ -162,6 +161,7 @@ D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Entit
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\EntityFramework.SqlServer.xml
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Microsoft.Rest.ClientRuntime.Azure.xml
+D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Newtonsoft.Json.xml
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Buffers.xml
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Diagnostics.DiagnosticSource.xml
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Memory.xml
@@ -176,8 +176,8 @@ D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Syste
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\System.Web.Optimization.xml
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Antlr3.Runtime.pdb
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.csproj.CoreCompileInputs.cache
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.csproj.CopyComplete
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.dll
 D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.pdb
-D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Newtonsoft.Json.dll
-D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\bin\Newtonsoft.Json.xml
+D:\OneDrive\HostalManagement Updated\HostalManagement\HostalManagement\obj\Debug\HostalManagement.csprojAssemblyReference.cache
