@@ -5,6 +5,7 @@ using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,6 +57,7 @@ namespace HostalManagement.Helpers
                 }
                 else
                 {
+                    return null;
                     throw new InvalidOperationException();
                 }
             }
@@ -75,7 +77,7 @@ namespace HostalManagement.Helpers
             }
         }
 
-        public async Task<FaceDetectionaVM> ValidateUser(Guid CurrentUserId)
+        public async Task<FaceDetectionaVM> ValidateUser(Guid CurrentUserId, int ch_st)
         {
             try
             {
@@ -89,11 +91,31 @@ namespace HostalManagement.Helpers
                     foreach (var user in UsersList)
                     {
                         Result.Result = await faceClient.Face.VerifyFaceToFaceAsync((Guid)user.FaceId, CurrentUserId);
-                        Result.User = user;
+
                         if (Result.Result.IsIdentical)
                         {
-                            break;
 
+                            Attendance Attandance = new Attendance();
+                            Attandance.StdID = user.RegistrationId;
+                            if (ch_st == 0)
+                            {
+
+                                Attandance.Status = false;
+                                Attandance.CheckIn = DateTime.Now;
+                                Attandance.Date = DateTime.Now;
+                                db.Attendances.Add(Attandance);
+
+                            }
+                            else
+                            {
+                                var us = db.Attendances.Where(st => st.StdID == user.RegistrationId).OrderByDescending(u => u.Date).FirstOrDefault();
+                                us.Status = true;
+                                us.CheckOut = DateTime.Now;
+                                us.Date = DateTime.Now;
+                                db.Entry(Attandance).State = EntityState.Modified;
+                            }
+                            Result.User = user;
+                            break;
                         }
                     }
                     return Result;

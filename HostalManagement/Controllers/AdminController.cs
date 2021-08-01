@@ -173,9 +173,9 @@ namespace HostalManagement.Controllers
                     db.Bills.Remove(bill);
                     db.SaveChanges();
                     TempData["msg"] = String.Format("Bill Received!");
-                    }
-                    return RedirectToAction("ReceiveStdBills");
                 }
+                return RedirectToAction("ReceiveStdBills");
+            }
             catch (Exception ex)
             {
                 TempData["msg"] = String.Format("error");
@@ -592,7 +592,7 @@ namespace HostalManagement.Controllers
         {
             try
             {
-                var ch_st =Convert.ToInt32(re.ContactNo);//0. checkin 1.checkout
+                var ch_st = Convert.ToInt32(re.ContactNo);//0. checkin 1.checkout
                 if (re.Photo != "")
                 {
                     string randomFileName = Guid.NewGuid().ToString().Substring(0, 10) + ".png";
@@ -609,18 +609,32 @@ namespace HostalManagement.Controllers
                     System.IO.File.WriteAllBytes(imgPath, Convert.FromBase64String(t));
                     FaceDetectionHelper fd = new FaceDetectionHelper();
 
-                    var detectedFaceId =await fd.UploadAndDetectFaces(imgPath);
+                    var detectedFaceId = await fd.UploadAndDetectFaces(imgPath);
 
-                    Registration user = new Registration();
-                    user.Photo = imgPath;
-                    if (detectedFaceId !=null && detectedFaceId!=Guid.Empty)
+                    //Registration user = new Registration();
+                    //user.Photo = imgPath;
+                    if (detectedFaceId != null && detectedFaceId != Guid.Empty)
                     {
-                        user.FaceId = detectedFaceId.Value;
+                        var ValidatedUser = await fd.ValidateUser((Guid)detectedFaceId, ch_st);
+                        if (ValidatedUser.Result.IsIdentical)
+                        {
+                            return Json(ValidatedUser, JsonRequestBehavior.AllowGet);
+
+                        }
+                        else
+                        {
+                            return Json(HttpNotFound(), JsonRequestBehavior.AllowGet);
+
+                        }
+                        //user.FaceId = detectedFaceId.Value;
                     }
                     //Do your work here and please return object with status("success/error")-and on the basis of these 
                     //I am goin to show notification.
                     //write here I am just assuming them.
                     //db.Entry(user).State = EntityState.Modified;
+
+                    ///
+                    /// I don't know why we have below chunk when everything is handled above
                     if (detectedFaceId.HasValue)
                     {
                         return Json("success", JsonRequestBehavior.AllowGet);
@@ -674,19 +688,19 @@ namespace HostalManagement.Controllers
                     //}
                     System.IO.File.WriteAllBytes(imgPath, Convert.FromBase64String(t));
                     FaceDetectionHelper fd = new FaceDetectionHelper();
-                    
-                    //Below commented function was used for testing only no need to uncomment
-                   // var userverify = await fd.ValidateUser(Guid.Parse("{ffaad433-a755-4c2d-a391-2dbfd86db061}"));
 
-                    var detectedFaceId =await fd.UploadAndDetectFaces(imgPath);
-                   
+                    //Below commented function was used for testing only no need to uncomment
+                    // var userverify = await fd.ValidateUser(Guid.Parse("{ffaad433-a755-4c2d-a391-2dbfd86db061}"));
+
+                    var detectedFaceId = await fd.UploadAndDetectFaces(imgPath);
+
                     var user = db.Registrations.Where(res => res.RegistrationId == re.RegistrationId).FirstOrDefault();
                     if (user.Photo != null)
                     {
                         return Json("exists", JsonRequestBehavior.AllowGet);
                     }
                     user.Photo = imgPath;
-                    if (detectedFaceId!=null && detectedFaceId!=Guid.Empty)
+                    if (detectedFaceId != null && detectedFaceId != Guid.Empty)
                     {
                         user.FaceId = detectedFaceId.Value;
                     }
